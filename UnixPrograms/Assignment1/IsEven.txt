@@ -1,0 +1,7 @@
+read -p "Enter any Number:" num
+if [ `expr $num % 2` = 0 ]
+then
+        echo "$num is EVEN"
+else
+        echo "$num is ODD"
+fi

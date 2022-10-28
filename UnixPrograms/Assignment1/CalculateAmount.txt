@@ -1,0 +1,11 @@
+read -p " Enter Purchased Amount : " amount
+if [ $amount -lt 1000 ]; then
+        discount=`echo 0.1 \* $amount | bc`
+        amount=`echo $amount - $discount | bc`
+        tax=`echo $amount\*0.02 | bc`
+else
+        discount=`echo 0.2 \* $amount | bc`
+        amount=`echo $amount - $discount | bc`
+        tax=`echo $amount \* 0.05 | bc`
+fi
+echo "Total amount is: `echo $amount + $tax | bc`"

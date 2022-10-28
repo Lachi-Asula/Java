@@ -1,0 +1,2 @@
+read -p "Enter any String : " str
+echo "length of the given string is: $(echo -n $str | wc -c)"

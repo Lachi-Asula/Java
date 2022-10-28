@@ -1,0 +1,14 @@
+read -p "Enter first Number: " num1
+read -p "Enter Second Number: " num2
+read -p "Enter Third Number: " num3
+if [ $num1 -gt $num2 ]; then
+        if [ $num1 -gt $num3 ]; then
+                echo "$num1 is Big"
+        else
+                echo "$num3 is Big"
+        fi
+elif [ $num2 -gt $num3 ]; then
+        echo "$num2 is Big"
+else
+        echo "$num3 is Big"
+fi
