@@ -49,5 +49,5 @@ private JSONObject callAPI(String request, String url< String timeout){
 
 Note:
 -----
---> timeout is a value like 30 sec, within 30 sec if we have not received response from server it will give close the connection and gives Timeout.
+--> timeout is a value like 30 sec, within 30 sec if we have not received response from server it will close the connection and gives Timeout.
 --> We can use InputStream or BufferedReader for taking response as string.
