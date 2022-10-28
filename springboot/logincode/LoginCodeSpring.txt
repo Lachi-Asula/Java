@@ -1,0 +1,62 @@
+		Login Credentials
+
+/*//Dao
+@Query("select book_id from Book_Entity where book_name=:bookname and book_author=:authorname")
+public String getBook_id(String bookname, String authorname);
+
+*/
+
+/*//Service
+public boolean validateBook(String bookname, String authorname) {
+		String id = bookDao.getBook_id(bookname, authorname);
+		if(id != null) {
+			System.out.println("id: " + id);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+*/
+
+/*//Controller
+@GetMapping("/validate")
+	public String validateBook(@RequestParam String bookname, @RequestParam String authorname,Model m) {
+		String res = "";
+		if(bookServ.validateBook(bookname, authorname)) {
+			List<Book_Model> books = bookServ.bookList();
+			m.addAttribute("books", books);
+			res = "viewbooks";
+		}
+		else {
+			m.addAttribute("err","Incorrect Detailes");
+			res = "login";
+		}
+		
+		return res;
+	}
+*/
+
+/*//login.jsp
+
+<div class="container">
+	<div class="card">
+		<div class="card-header">
+			<h3 style=color:brown;text-align:center>Book Signin</h3>
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-sm-4">
+					<h5 style=color:red;text-align:center>${err}</h5>
+					<form action="validate">
+						<input type="text" class="form-control" placeholder="Book Name" name="bookname"><br>
+						<input type="text" class="form-control" placeholder="Author Name" name="authorname"><br>
+							
+						<input type="submit" value="signin">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+*/
