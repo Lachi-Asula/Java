@@ -23,8 +23,8 @@ public class EmpService {
 	public List<Employee> getEmps(){
 		
 		List<Employee> li = new ArrayList<>();
-		empDao.findAll().forEach(li::add);
-		
+		li = empDao.findAll();
+	//	empDao.findAll().forEach(li::add);
 		return li;
 	}
 }
