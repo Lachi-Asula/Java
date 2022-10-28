@@ -6,16 +6,55 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="AttendanceManagementTracker" />
+        <module name="BookMvcJpa" />
+        <module name="PersonMvcJpa" />
+        <module name="EmailSendApplication" />
+        <module name="ExceptionHandlingDemo" />
+        <module name="ProductExceptionJpa" />
+        <module name="ExceptionHandlingDemoJpa" />
+        <module name="SsnEnrollmentRest" />
+        <module name="Employee" />
+        <module name="AlbumTracks_POC" />
+        <module name="JwtAuthentication" />
+        <module name="EurekaDemo11" />
+        <module name="StudentAPIAppl" />
         <module name="EmployeeApiAppl" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="AlbumTracks_POC" target="1.8" />
+      <module name="AttendanceManagementTracker" target="1.8" />
+      <module name="BookMvcJpa" target="1.8" />
+      <module name="EmailSendApplication" target="1.8" />
+      <module name="Employee" target="11" />
       <module name="EmployeeApiAppl" target="1.8" />
+      <module name="EurekaDemo11" target="1.8" />
+      <module name="ExceptionHandlingDemo" target="11" />
+      <module name="ExceptionHandlingDemoJpa" target="1.8" />
+      <module name="JwtAuthentication" target="1.8" />
+      <module name="PersonMvcJpa" target="1.8" />
+      <module name="ProductExceptionJpa" target="1.8" />
+      <module name="SsnEnrollmentRest" target="1.8" />
+      <module name="StudentAPIAppl" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="AlbumTracks_POC" options="-parameters" />
+      <module name="AttendanceManagementTracker" options="-parameters" />
+      <module name="BookMvcJpa" options="-parameters" />
+      <module name="EmailSendApplication" options="-parameters" />
+      <module name="Employee" options="-parameters" />
       <module name="EmployeeApiAppl" options="-parameters" />
+      <module name="EurekaDemo11" options="-parameters" />
+      <module name="ExceptionHandlingDemo" options="-parameters" />
+      <module name="ExceptionHandlingDemoJpa" options="-parameters" />
+      <module name="JwtAuthentication" options="-parameters" />
+      <module name="PersonMvcJpa" options="-parameters" />
+      <module name="ProductExceptionJpa" options="-parameters" />
+      <module name="SsnEnrollmentRest" options="-parameters" />
+      <module name="StudentAPIAppl" options="-parameters" />
     </option>
   </component>
 </project>

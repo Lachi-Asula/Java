@@ -2,8 +2,21 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/springboot/AlbumTracks_POC/AlbumTracks_POC.iml" filepath="$PROJECT_DIR$/springboot/AlbumTracks_POC/AlbumTracks_POC.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot/AttendanceManagement/AttendanceManagementTracker/AttendanceManagementTracker.iml" filepath="$PROJECT_DIR$/springboot/AttendanceManagement/AttendanceManagementTracker/AttendanceManagementTracker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot/BookMvcJpa/BookMvcJpa.iml" filepath="$PROJECT_DIR$/springboot/BookMvcJpa/BookMvcJpa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot/EmailSendApplication/EmailSendApplication.iml" filepath="$PROJECT_DIR$/springboot/EmailSendApplication/EmailSendApplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot/Emp_Jpa_CRUD/Employee/Employee.iml" filepath="$PROJECT_DIR$/springboot/Emp_Jpa_CRUD/Employee/Employee.iml" />
       <module fileurl="file://$PROJECT_DIR$/springboot/EmployeeApiAppl/EmployeeApiAppl.iml" filepath="$PROJECT_DIR$/springboot/EmployeeApiAppl/EmployeeApiAppl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot/AttendanceManagement/EurekaDemo11/EurekaDemo11.iml" filepath="$PROJECT_DIR$/springboot/AttendanceManagement/EurekaDemo11/EurekaDemo11.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot/Spring_Exception/ExceptionHandlingDemo/ExceptionHandlingDemo.iml" filepath="$PROJECT_DIR$/springboot/Spring_Exception/ExceptionHandlingDemo/ExceptionHandlingDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot/Spring_Exception/ExceptionHandlingDemoJpa/ExceptionHandlingDemoJpa.iml" filepath="$PROJECT_DIR$/springboot/Spring_Exception/ExceptionHandlingDemoJpa/ExceptionHandlingDemoJpa.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Java.iml" filepath="$PROJECT_DIR$/.idea/Java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot/JwtAuthentication/JwtAuthentication.iml" filepath="$PROJECT_DIR$/springboot/JwtAuthentication/JwtAuthentication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot/PersonMvcJpa/PersonMvcJpa.iml" filepath="$PROJECT_DIR$/springboot/PersonMvcJpa/PersonMvcJpa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot/Spring_Exception/ProductExceptionJpa/ProductExceptionJpa.iml" filepath="$PROJECT_DIR$/springboot/Spring_Exception/ProductExceptionJpa/ProductExceptionJpa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot/SsnEnrollmentRest/SsnEnrollmentRest.iml" filepath="$PROJECT_DIR$/springboot/SsnEnrollmentRest/SsnEnrollmentRest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot/StudentAPIAppl/StudentAPIAppl.iml" filepath="$PROJECT_DIR$/springboot/StudentAPIAppl/StudentAPIAppl.iml" />
     </modules>
   </component>
 </project>

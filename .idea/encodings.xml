@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/springboot/AlbumTracks_POC/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot/AttendanceManagement/AttendanceManagementTracker/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot/AttendanceManagement/EurekaDemo11/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot/BookMvcJpa/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot/EmailSendApplication/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot/Emp_Jpa_CRUD/Employee/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/springboot/EmployeeApiAppl/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot/JwtAuthentication/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot/PersonMvcJpa/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot/Spring_Exception/ExceptionHandlingDemo/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot/Spring_Exception/ExceptionHandlingDemoJpa/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot/Spring_Exception/ProductExceptionJpa/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot/SsnEnrollmentRest/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot/StudentAPIAppl/src/main/java" charset="UTF-8" />
   </component>
 </project>
