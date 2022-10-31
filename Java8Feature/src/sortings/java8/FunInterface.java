@@ -1,4 +1,5 @@
 package sortings.java8;
+@FunctionalInterface
 public interface FunInterface {
  
 	abstract int m1(int x, int y);

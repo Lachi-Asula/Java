@@ -8,7 +8,7 @@ public class OptionalDemo {
 		str[5] = "lachi";
 	//	String st = str[5];
 		
-		Optional<String> opt = Optional.ofNullable(str[5]);
+		Optional<String> opt = Optional.ofNullable(str[3]);
 		if(opt.isPresent()) {
 			System.out.println(opt.get().length());
 		}
