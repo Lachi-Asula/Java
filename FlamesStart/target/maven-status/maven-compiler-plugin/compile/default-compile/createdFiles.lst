@@ -1,0 +1,9 @@
+com\flames\model\UserDTO$UserDTOBuilder.class
+com\flames\model\Constants.class
+com\flames\controller\FlamesStartApplication.class
+com\flames\controller\FlamesStartResource.class
+com\flames\model\UserDTO.class
+com\flames\model\CommonResponse.class
+com\flames\model\RelationDTO$RelationDTOBuilder.class
+com\flames\service\FlamesService.class
+com\flames\model\RelationDTO.class
