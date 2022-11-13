@@ -22,6 +22,8 @@ public class FlamesService {
         RelationDTO relationDTO;
         try{
             if(userDTO != null && userDTO.getFirstName() != null && userDTO.getSecondName() != null && !userDTO.getFirstName().isEmpty() && !userDTO.getSecondName().isEmpty()) {
+                userDTO.setFirstName(userDTO.getFirstName().replaceAll("\\s", ""));
+                userDTO.setSecondName(userDTO.getSecondName().replaceAll("\\s", ""));
                 String relation = getFinalRelation(userDTO);
                 relationDTO = RelationDTO.builder()
                         .relation(relation)
