@@ -16,6 +16,15 @@ public class RelationDTO {
     @JsonProperty("Relation")
     private String relation;
 
+    @JsonProperty("FirstName")
+    private String firstName;
+
+    @JsonProperty("SecondName")
+    private String secondName;
+
+    @JsonProperty("Description")
+    private String description;
+
     @JsonProperty("isSuccessful")
     private String isSuccessful;
 

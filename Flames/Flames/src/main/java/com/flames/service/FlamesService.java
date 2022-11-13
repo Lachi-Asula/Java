@@ -20,13 +20,21 @@ public class FlamesService {
         JSONParser parser = new JSONParser();
         ObjectMapper mapper = new ObjectMapper();
         RelationDTO relationDTO;
+        UserDTO userDTO1 = UserDTO.builder().build();
         try{
             if(userDTO != null && userDTO.getFirstName() != null && userDTO.getSecondName() != null && !userDTO.getFirstName().isEmpty() && !userDTO.getSecondName().isEmpty()) {
+                userDTO1 = UserDTO.builder()
+                        .firstName(userDTO.getFirstName())
+                        .secondName(userDTO.getSecondName())
+                        .build();
                 userDTO.setFirstName(userDTO.getFirstName().replaceAll("\\s", ""));
                 userDTO.setSecondName(userDTO.getSecondName().replaceAll("\\s", ""));
                 String relation = getFinalRelation(userDTO);
                 relationDTO = RelationDTO.builder()
                         .relation(relation)
+                        .firstName(userDTO1.getFirstName())
+                        .secondName(userDTO1.getSecondName())
+                        .description(getDescription(relation))
                         .isSuccessful(Constants.status_True)
                         .errorMsg(null)
                         .build();
@@ -34,6 +42,9 @@ public class FlamesService {
             }else {
                 relationDTO = RelationDTO.builder()
                         .relation(null)
+                        .firstName(userDTO1.getFirstName())
+                        .secondName(userDTO1.getSecondName())
+                        .description(null)
                         .isSuccessful(Constants.status_False)
                         .errorMsg(Constants.errorMsg)
                         .build();
@@ -95,16 +106,27 @@ public class FlamesService {
     public String getFinalRelation(UserDTO userDTO){
         char finalChar = getFinalFlamesChar(userDTO);
         Map<Character, String> relations = new HashMap<>();
-        relations.put('F', "FRIENDSHIP");
-        relations.put('L', "LOVE");
-        relations.put('A', "AFFECTION");
-        relations.put('M', "MARRIAGE");
-        relations.put('E', "ENEMY");
-        relations.put('S', "SIBLINGS");
+        relations.put('F', Constants.friendShip);
+        relations.put('L', Constants.love);
+        relations.put('A', Constants.affection);
+        relations.put('M', Constants.marriage);
+        relations.put('E', Constants.enemy);
+        relations.put('S', Constants.siblings);
 
         return relations.get(finalChar);
     }
 
+    public String getDescription(String relation){
+        Map<String, String> description = new HashMap<>();
+        description.put(Constants.friendShip, Constants.friendShipDesc);
+        description.put(Constants.love, Constants.love);
+        description.put(Constants.affection, Constants.affectionDesc);
+        description.put(Constants.marriage, Constants.marriageDesc);
+        description.put(Constants.enemy, Constants.enemyDesc);
+        description.put(Constants.siblings, Constants.siblingDesc);
+
+        return description.get(relation);
+    }
 //    public static void main(String[] args) {
 //        UserDTO userDTO = UserDTO.builder()
 //                .firstName("lachi")
