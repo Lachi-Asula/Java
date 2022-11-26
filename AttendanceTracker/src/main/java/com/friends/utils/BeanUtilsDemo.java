@@ -1,6 +1,7 @@
 package com.friends.utils;
 
 import com.friends.dto.Batch_Info_Dto;
+import com.friends.dto.Constants;
 import com.friends.dto.Emp_Info_Dto;
 import com.friends.dto.Staff_Info_Dto;
 import com.friends.model.Batch_Info_Entity;
@@ -54,7 +55,9 @@ public class BeanUtilsDemo {
     public Emp_Info_Entity getEmpInfoEntity(Emp_Info_Dto empInfoDto){
         Emp_Info_Entity empInfoEntity = new Emp_Info_Entity();
         try{
+            empInfoDto.setFldStatus(empInfoEntity.getFldStatus() != null ? empInfoEntity.getFldStatus().toUpperCase() : Constants.stutusTraining);
             BeanUtils.copyProperties(empInfoDto, empInfoEntity);
+            System.out.println(empInfoDto);
         }catch (Exception e){
             logger.info("Error occurred in BeanUtilsDemo while coping the properties : " + e);
         }
@@ -92,5 +95,14 @@ public class BeanUtilsDemo {
         }
 
         return staffInfoEntity;
+    }
+
+    public List<Emp_Info_Dto> getListOfEmpsDto(List<Emp_Info_Entity> empInfoEntities){
+        List<Emp_Info_Dto> empInfoDtoList = new ArrayList<>();
+        for(Emp_Info_Entity empInfoEntity : empInfoEntities){
+            empInfoDtoList.add(getEmpInfoDto(empInfoEntity));
+        }
+
+        return empInfoDtoList;
     }
 }

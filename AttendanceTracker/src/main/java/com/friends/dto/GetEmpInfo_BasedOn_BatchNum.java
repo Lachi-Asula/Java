@@ -2,6 +2,7 @@ package com.friends.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,19 +11,13 @@ import java.util.List;
 @Data
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Login_Res_Dto {
-    @JsonProperty("Role")
-    private String role;
-
-    @JsonProperty("EmployeeName")
-    private String empName;
-
-    @JsonProperty("BatchNums")
-    private List<String> batchNums;
-
+public class GetEmpInfo_BasedOn_BatchNum {
     @JsonProperty("StatusCode")
     private String statusCode;
 
+    @JsonProperty("EmployeeList")
+    private List<Emp_Info_Dto> empInfoDtoList;
+
     @JsonProperty("Message")
-    private String errorMsg;
+    private String message;
 }

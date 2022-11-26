@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface GetEmpRole {
 
    Login_Res_Dto getEmpRoleServ(Login_Req_Dto loginReqDto);
+
+   Login_Res_Dto getAllbatches();
 }

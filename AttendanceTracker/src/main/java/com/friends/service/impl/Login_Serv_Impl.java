@@ -53,6 +53,7 @@ public class Login_Serv_Impl implements GetEmpRole {
                 }
                 loginResDto = Login_Res_Dto.builder()
                         .role(staffInfoDto.getFldSpecialization())
+                        .empName(staffInfoDto.getFldFullName())
                         .statusCode(Constants.status_Success)
                         .batchNums(allBatchNums)
                         .errorMsg(null)
@@ -71,6 +72,25 @@ public class Login_Serv_Impl implements GetEmpRole {
                     .errorMsg(Constants.errorMsg)
                     .build();
         }
+        return loginResDto;
+    }
+
+    @Override
+    public Login_Res_Dto getAllbatches() {
+        Login_Res_Dto loginResDto;
+        Optional<List<String>> allBatches = batchInfoDao.getAllBatchesNames();
+        if(allBatches.isPresent()){
+            loginResDto = Login_Res_Dto.builder()
+                    .batchNums(allBatches.get())
+                    .statusCode(Constants.status_Success)
+                    .build();
+        }else {
+            loginResDto = Login_Res_Dto.builder()
+                    .statusCode(Constants.status_Failure)
+                    .errorMsg(Constants.noData)
+                    .build();
+        }
+
         return loginResDto;
     }
 }

@@ -1,5 +1,7 @@
 package com.friends.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,8 +12,9 @@ import javax.persistence.*;
 public class Emp_Info_Entity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IDVAL")
+    @SequenceGenerator(allocationSize = 1, name = "IDVAL")
+    @Column(name = "FLD_ID")
     private int id;
 
     @Column(name = "FLD_EMP_ID")
