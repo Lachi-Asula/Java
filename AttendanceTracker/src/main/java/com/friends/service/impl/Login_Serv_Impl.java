@@ -2,13 +2,12 @@ package com.friends.service.impl;
 
 import com.friends.dao.Batch_Info_Dao;
 import com.friends.dao.Staff_Info_Dao;
-import com.friends.dto.Constants;
-import com.friends.dto.Login_Req_Dto;
-import com.friends.dto.Login_Res_Dto;
+import com.friends.dto.*;
 import com.friends.encryption.AES;
 import com.friends.model.Batch_Info_Entity;
 import com.friends.model.Staff_Info_Entity;
 import com.friends.service.GetEmpRole;
+import com.friends.utils.BeanUtilsDemo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -27,6 +26,9 @@ public class Login_Serv_Impl implements GetEmpRole {
     private Batch_Info_Dao batchInfoDao;
 
     @Autowired
+    private BeanUtilsDemo beanUtils;
+
+    @Autowired
     private AES aes;
 
     @Override
@@ -37,17 +39,20 @@ public class Login_Serv_Impl implements GetEmpRole {
             loginReqDto.setPassword(encPass);
             Optional<Staff_Info_Entity> staffInfoEntity = staffInfoDao.findByFldEmpIdAndFldPassword(loginReqDto.getEmp_Id(), loginReqDto.getPassword());
             if (staffInfoEntity.isPresent()) {
+                Staff_Info_Dto staffInfoDto = beanUtils.getStaffInfoDto(staffInfoEntity.get());
                 List<String> allBatchNums = new ArrayList<>();
-                if(staffInfoEntity.get().getFldSpecialization().equals(Constants.trainee)){
-                    for(Batch_Info_Entity batchInfoEntity : staffInfoEntity.get().getFld_Staff_Id()){
-                        allBatchNums.add(batchInfoEntity.getFldBatchName());
+                if(staffInfoDto.getFldSpecialization().equals(Constants.trainee)){
+                    for(Batch_Info_Dto batchInfoDto : staffInfoDto.getFld_Staff_Id()){
+                        allBatchNums.add(batchInfoDto.getFldBatchName());
                     }
                 }else {
                     Optional<List<String>> getAllbatchesOpt = batchInfoDao.getAllBatchesNames();
-                    allBatchNums = getAllbatchesOpt.get();
+                    if(getAllbatchesOpt.isPresent()) {
+                        allBatchNums = getAllbatchesOpt.get();
+                    }
                 }
                 loginResDto = Login_Res_Dto.builder()
-                        .role(staffInfoEntity.get().getFldSpecialization())
+                        .role(staffInfoDto.getFldSpecialization())
                         .statusCode(Constants.status_Success)
                         .batchNums(allBatchNums)
                         .errorMsg(null)
