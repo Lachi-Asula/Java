@@ -7,7 +7,6 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Login_Res_Dto {
@@ -25,4 +24,44 @@ public class Login_Res_Dto {
 
     @JsonProperty("Message")
     private String errorMsg;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getEmpName() {
+        return empName;
+    }
+
+    public void setEmpName(String empName) {
+        this.empName = empName;
+    }
+
+    public List<String> getBatchNums() {
+        return batchNums;
+    }
+
+    public void setBatchNums(List<String> batchNums) {
+        this.batchNums = batchNums;
+    }
+
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
 }

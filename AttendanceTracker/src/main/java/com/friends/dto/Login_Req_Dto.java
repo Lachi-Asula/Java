@@ -8,8 +8,8 @@ import lombok.ToString;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@Data
-@ToString
+import static com.friends.utils.AdapterUtils.trimStr;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Login_Req_Dto {
 
@@ -22,4 +22,20 @@ public class Login_Req_Dto {
     @NotEmpty(message = "Password should not be Empty or null")
     @JsonProperty("Password")
     private String password;
+
+    public String getEmp_Id() {
+        return trimStr(emp_Id);
+    }
+
+    public void setEmp_Id(String emp_Id) {
+        this.emp_Id = trimStr(emp_Id);
+    }
+
+    public String getPassword() {
+        return trimStr(password);
+    }
+
+    public void setPassword(String password) {
+        this.password = trimStr(password);
+    }
 }

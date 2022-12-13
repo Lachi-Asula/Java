@@ -1,18 +1,19 @@
 package com.friends.utils;
 
-import com.friends.dto.Batch_Info_Dto;
-import com.friends.dto.Constants;
-import com.friends.dto.Emp_Info_Dto;
-import com.friends.dto.Staff_Info_Dto;
+import com.friends.dto.*;
 import com.friends.model.Batch_Info_Entity;
 import com.friends.model.Emp_Info_Entity;
+import com.friends.model.Sms_Info_Entity;
 import com.friends.model.Staff_Info_Entity;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.friends.utils.AdapterUtils.getStackTrace;
 
 @Component
 public class BeanUtilsDemo {
@@ -24,7 +25,7 @@ public class BeanUtilsDemo {
         try{
             BeanUtils.copyProperties(batchInfoEntity, batchInfoDto);
         }catch (Exception e){
-            logger.info("Error occurred in BeanUtilsDemo while coping the properties : " + e);
+            logger.log(Level.SEVERE, getStackTrace(e));
         }
 
         return batchInfoDto;
@@ -35,7 +36,7 @@ public class BeanUtilsDemo {
         try{
             BeanUtils.copyProperties(batchInfoDto, batchInfoEntity);
         }catch (Exception e){
-            logger.info("Error occurred in BeanUtilsDemo while coping the properties : " + e);
+            logger.log(Level.SEVERE, getStackTrace(e));
         }
 
         return batchInfoEntity;
@@ -46,7 +47,7 @@ public class BeanUtilsDemo {
         try{
             BeanUtils.copyProperties(empInfoEntity, empInfoDto);
         }catch (Exception e){
-            logger.info("Error occurred in BeanUtilsDemo while coping the properties : " + e);
+            logger.log(Level.SEVERE, getStackTrace(e));
         }
 
         return empInfoDto;
@@ -59,7 +60,7 @@ public class BeanUtilsDemo {
             BeanUtils.copyProperties(empInfoDto, empInfoEntity);
             System.out.println(empInfoDto);
         }catch (Exception e){
-            logger.info("Error occurred in BeanUtilsDemo while coping the properties : " + e);
+            logger.log(Level.SEVERE, getStackTrace(e));
         }
 
         return empInfoEntity;
@@ -75,7 +76,7 @@ public class BeanUtilsDemo {
             }
             staffInfoDto.setFld_Staff_Id(batchInfoDto);
         }catch (Exception e){
-            logger.info("Error occurred in BeanUtilsDemo while coping the properties : " + e);
+            logger.log(Level.SEVERE, getStackTrace(e));
         }
 
         return staffInfoDto;
@@ -91,7 +92,7 @@ public class BeanUtilsDemo {
             }
             staffInfoEntity.setFld_Staff_Id(batchInfoEntities);
         }catch (Exception e){
-            logger.info("Error occurred in BeanUtilsDemo while coping the properties : " + e);
+            logger.log(Level.SEVERE, getStackTrace(e));
         }
 
         return staffInfoEntity;
@@ -99,10 +100,36 @@ public class BeanUtilsDemo {
 
     public List<Emp_Info_Dto> getListOfEmpsDto(List<Emp_Info_Entity> empInfoEntities){
         List<Emp_Info_Dto> empInfoDtoList = new ArrayList<>();
-        for(Emp_Info_Entity empInfoEntity : empInfoEntities){
-            empInfoDtoList.add(getEmpInfoDto(empInfoEntity));
+        try {
+            for(Emp_Info_Entity empInfoEntity : empInfoEntities){
+                empInfoDtoList.add(getEmpInfoDto(empInfoEntity));
+            }
+        }catch (Exception e){
+            logger.log(Level.SEVERE, getStackTrace(e));
         }
 
         return empInfoDtoList;
+    }
+
+    public Sms_Info_Entity getSmsInfoEntity(Sms_Info_Dto smsInfoDto){
+        Sms_Info_Entity smsInfoEntity = new Sms_Info_Entity();
+        try {
+            BeanUtils.copyProperties(smsInfoDto, smsInfoEntity);
+        }catch (Exception e){
+            logger.log(Level.SEVERE, getStackTrace(e));
+        }
+
+        return smsInfoEntity;
+    }
+
+    public Sms_Info_Dto getSmsInfoEntity(Sms_Info_Entity smsInfoEntity){
+        Sms_Info_Dto smsInfoDto = new Sms_Info_Dto();
+        try {
+            BeanUtils.copyProperties(smsInfoEntity, smsInfoDto);
+        }catch (Exception e){
+            logger.log(Level.SEVERE, getStackTrace(e));
+        }
+
+        return smsInfoDto;
     }
 }

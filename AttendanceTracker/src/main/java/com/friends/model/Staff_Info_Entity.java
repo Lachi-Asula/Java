@@ -20,6 +20,9 @@ public class Staff_Info_Entity {
     @Column(name = "FLD_EMAIL_ID")
     private String fldEmailId;
 
+    @Column(name = "FLD_PHONE")
+    private String fldPhone;
+
     @Column(name = "FLD_GENDER")
     private String fldGender;
 

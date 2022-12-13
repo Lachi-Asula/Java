@@ -17,4 +17,6 @@ public interface Emp_Info_Dao extends JpaRepository<Emp_Info_Entity, Integer> {
     Optional<Emp_Info_Entity> findByFldFullNameAndFldEmailId(String fullName, String emailId);
 
     Optional<List<Emp_Info_Entity>> findByFldBatchNum(String batchNum);
+
+    Optional<Emp_Info_Entity> findByFldEmpId(String empId);
 }
