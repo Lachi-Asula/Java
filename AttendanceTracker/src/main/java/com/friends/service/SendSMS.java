@@ -9,6 +9,6 @@ public interface SendSMS {
     EmpStaffInfo getEmpStaffInfoFromDb(String empId);
     CommonResponse sendSMSOnMobile(SMSDto smsDto);
 
-    CommonResponse verifyOtpOnMobile(SMSDto smsDto);
+    CommonResponse verifyOtp(SMSDto smsDto);
 
 }

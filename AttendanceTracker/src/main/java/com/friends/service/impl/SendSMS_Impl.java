@@ -154,7 +154,7 @@ public class SendSMS_Impl implements SendSMS {
     }
 
     @Override
-    public CommonResponse verifyOtpOnMobile(SMSDto smsDto) {
+    public CommonResponse verifyOtp(SMSDto smsDto) {
         CommonResponse commonResponse = null;
         if(smsDto != null && StringUtils.isNotBlank(smsDto.getEmpStaffId()) && StringUtils.isNotBlank(smsDto.getOtpValue())){
             if(StringUtils.isNumeric(smsDto.getOtpValue())){

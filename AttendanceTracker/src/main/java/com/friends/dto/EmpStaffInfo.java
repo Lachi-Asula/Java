@@ -59,6 +59,22 @@ public class EmpStaffInfo {
         this.emailId = trimStr(emailId);
     }
 
+    public String getErrorCode() {
+        return trimStr(errorCode);
+    }
+
+    public void setErrorCode(String errorCode) {
+        this.errorCode = trimStr(errorCode);
+    }
+
+    public String getErrorMsg() {
+        return trimStr(errorMsg);
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = trimStr(errorMsg);
+    }
+
     public EmpStaffInfo() {
     }
 

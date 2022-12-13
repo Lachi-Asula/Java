@@ -51,9 +51,8 @@ public class SMSController {
         return ResponseEntity.ok(commonResponse);
     }
 
-    @PostMapping("/verifyOtpOnMobile")
+    @PostMapping("/verifyOtp")
     public ResponseEntity<CommonResponse> verifyOTPOnMobile(@RequestBody SMSDto smsDto){
-
-        return ResponseEntity.ok(sendSMS.verifyOtpOnMobile(smsDto));
+        return ResponseEntity.ok(sendSMS.verifyOtp(smsDto));
     }
 }
