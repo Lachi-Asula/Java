@@ -1,6 +1,7 @@
 package com.friends.dto;
 
 public class Constants {
+    public static String emptyLoginCred = "Employee Id and Password should be empty or null.";
     public static String errorMsg = "Invalid Employee Id or Password.";
     public static String idStart = "YES";
     public static String status_Success = "0";

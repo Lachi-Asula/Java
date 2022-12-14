@@ -3,21 +3,25 @@ package com.friends.service.impl;
 import com.friends.dao.Batch_Info_Dao;
 import com.friends.dao.Staff_Info_Dao;
 import com.friends.dto.*;
-import com.friends.encryption.AES;
-import com.friends.model.Batch_Info_Entity;
+import com.friends.utils.encryption.EncryptDecryptRSAUtil;
 import com.friends.model.Staff_Info_Entity;
 import com.friends.service.GetEmpRole;
 import com.friends.utils.BeanUtilsDemo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.friends.utils.AdapterUtils.getStackTrace;
 
 @Service
 public class Login_Serv_Impl implements GetEmpRole {
+
+    private final static Logger logger = Logger.getLogger(Login_Serv_Impl.class.getName());
 
     @Autowired
     private Staff_Info_Dao staffInfoDao;
@@ -29,43 +33,60 @@ public class Login_Serv_Impl implements GetEmpRole {
     private BeanUtilsDemo beanUtils;
 
     @Autowired
-    private AES aes;
+    private EncryptDecryptRSAUtil encDecUsingRSA;
 
     @Override
     public Login_Res_Dto getEmpRoleServ(Login_Req_Dto loginReqDto) {
-        Login_Res_Dto loginResDto;
-        if(loginReqDto != null && loginReqDto.getEmp_Id() != null && loginReqDto.getPassword() != null) {
-            String encPass = aes.encode(loginReqDto.getPassword().getBytes());
-            loginReqDto.setPassword(encPass);
-            Optional<Staff_Info_Entity> staffInfoEntity = staffInfoDao.findByFldEmpIdAndFldPassword(loginReqDto.getEmp_Id(), loginReqDto.getPassword());
-            if (staffInfoEntity.isPresent()) {
-                Staff_Info_Dto staffInfoDto = beanUtils.getStaffInfoDto(staffInfoEntity.get());
-                List<String> allBatchNums = new ArrayList<>();
-                if(staffInfoDto.getFldSpecialization().equals(Constants.trainee)){
-                    for(Batch_Info_Dto batchInfoDto : staffInfoDto.getFld_Staff_Id()){
-                        allBatchNums.add(batchInfoDto.getFldBatchName());
+        Login_Res_Dto loginResDto = null;
+        String password = null;
+        try {
+            if (loginReqDto != null && loginReqDto.getEmp_Id() != null && loginReqDto.getPassword() != null) {
+                Optional<Staff_Info_Entity> staffInfoEntity = staffInfoDao.findByFldEmpId(loginReqDto.getEmp_Id());
+                if (staffInfoEntity.isPresent()) {
+                    Staff_Info_Dto staffInfoDto = beanUtils.getStaffInfoDto(staffInfoEntity.get());
+                    password = encDecUsingRSA.decode(staffInfoDto.getFldPassword());
+                    if (password != null && password.equalsIgnoreCase(loginReqDto.getPassword())) {
+                        List<String> allBatchNums = new ArrayList<>();
+                        if (staffInfoDto.getFldSpecialization().equals(Constants.trainee)) {
+                            for (Batch_Info_Dto batchInfoDto : staffInfoDto.getFld_Staff_Id()) {
+                                allBatchNums.add(batchInfoDto.getFldBatchName());
+                            }
+                        } else {
+                            Optional<List<String>> getAllbatchesOpt = batchInfoDao.getAllBatchesNames();
+                            if (getAllbatchesOpt.isPresent()) {
+                                allBatchNums = getAllbatchesOpt.get();
+                            }
+                        }
+                        loginResDto = Login_Res_Dto.builder()
+                                .role(staffInfoDto.getFldSpecialization())
+                                .empName(staffInfoDto.getFldFullName())
+                                .statusCode(Constants.status_Success)
+                                .batchNums(allBatchNums)
+                                .errorMsg(null)
+                                .build();
+                    } else {
+                        loginResDto = Login_Res_Dto.builder()
+                                .role(null)
+                                .statusCode(Constants.status_Failure)
+                                .errorMsg(Constants.errorMsg)
+                                .build();
                     }
-                }else {
-                    Optional<List<String>> getAllbatchesOpt = batchInfoDao.getAllBatchesNames();
-                    if(getAllbatchesOpt.isPresent()) {
-                        allBatchNums = getAllbatchesOpt.get();
-                    }
+                } else {
+                    loginResDto = Login_Res_Dto.builder()
+                            .role(null)
+                            .statusCode(Constants.status_Failure)
+                            .errorMsg(Constants.errorMsg)
+                            .build();
                 }
-                loginResDto = Login_Res_Dto.builder()
-                        .role(staffInfoDto.getFldSpecialization())
-                        .empName(staffInfoDto.getFldFullName())
-                        .statusCode(Constants.status_Success)
-                        .batchNums(allBatchNums)
-                        .errorMsg(null)
-                        .build();
             } else {
                 loginResDto = Login_Res_Dto.builder()
                         .role(null)
                         .statusCode(Constants.status_Failure)
-                        .errorMsg(Constants.errorMsg)
+                        .errorMsg(Constants.emptyLoginCred)
                         .build();
             }
-        }else {
+        }catch (Exception e){
+            logger.log(Level.SEVERE, getStackTrace(e));
             loginResDto = Login_Res_Dto.builder()
                     .role(null)
                     .statusCode(Constants.status_Failure)
