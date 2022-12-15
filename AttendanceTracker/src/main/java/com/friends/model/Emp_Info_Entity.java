@@ -35,4 +35,7 @@ public class Emp_Info_Entity {
 
     @Column(name = "FLD_STATUS")
     private String fldStatus;
+
+    @Column(name = "FLD_PASSWORD")
+    private String fldPassword;
 }

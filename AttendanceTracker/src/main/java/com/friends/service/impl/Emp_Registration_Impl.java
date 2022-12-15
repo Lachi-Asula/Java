@@ -7,6 +7,7 @@ import com.friends.dto.Emp_Info_Dto;
 import com.friends.model.Emp_Info_Entity;
 import com.friends.service.Emp_Register;
 import com.friends.utils.BeanUtilsDemo;
+import com.friends.utils.encryption.EncryptDecryptRSAUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,9 @@ public class Emp_Registration_Impl implements Emp_Register {
     @Autowired
     private BeanUtilsDemo beanUtils;
 
+    @Autowired
+    private EncryptDecryptRSAUtil encryptDecryptRSAUtil;
+
     @Override
     public CommonResponse Emp_Registration(Emp_Info_Dto empInfoDto) {
         CommonResponse commonResponse;
@@ -28,12 +32,13 @@ public class Emp_Registration_Impl implements Emp_Register {
             if(empInfoDto.getFldFullName() != null && empInfoDto.getFldEmailId() != null){
                 Optional<Emp_Info_Entity> empInfoEntity = empInfoDao.findByFldFullNameAndFldEmailId(empInfoDto.getFldFullName(), empInfoDto.getFldEmailId());
                 if(!empInfoEntity.isPresent()){
-                String empId = Constants.idStart + empInfoDao.getnewEmpID();
-                Emp_Info_Entity emp_info_entity = beanUtils.getEmpInfoEntity(empInfoDto);
-                emp_info_entity.setFldEmpId(empId);
-                Emp_Info_Entity emp_info_entity1 = empInfoDao.save(emp_info_entity);
-                empInfoDto = beanUtils.getEmpInfoDto(emp_info_entity1);
-                commonResponse = CommonResponse.builder()
+                    String empId = Constants.idStart + empInfoDao.getnewEmpID();
+                    String password = encryptDecryptRSAUtil.encode(empInfoDto.getFldPassword());
+                    empInfoDto.setFldPassword(password);
+                    empInfoDto.setFldEmpId(empId);
+                    Emp_Info_Entity emp_info_entity = beanUtils.getEmpInfoEntity(empInfoDto);
+                    empInfoDao.save(emp_info_entity);
+                    commonResponse = CommonResponse.builder()
                         .statusCode("0")
                         .message(Constants.successEmpRegister + empInfoDto.getFldEmpId())
                         .build();

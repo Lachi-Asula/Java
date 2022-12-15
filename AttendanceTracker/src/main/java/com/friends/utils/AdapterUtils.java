@@ -35,7 +35,7 @@ public class AdapterUtils {
     }
 
     public static String getTimeStamp(){
-        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss a").format(LocalDateTime.now());
     }
 
     public static String getRequestRefNumber() {
@@ -47,10 +47,6 @@ public class AdapterUtils {
     }
 
     public static String generateOtpValue() {
-        long random = (long) (Math.random() * DIVIDER);
-        int remainder = (int) random % DIVIDER;
-        String reminderstr = String.format(FORMAT, remainder);
-        return (System.nanoTime() + "" + reminderstr).substring(4, 10);
-
+        return getRequestRefNumber().substring(4, 10);
     }
 }

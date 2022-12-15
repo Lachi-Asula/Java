@@ -1,8 +1,10 @@
 package com.friends.service.impl;
 
 import com.friends.dao.Batch_Info_Dao;
+import com.friends.dao.Emp_Info_Dao;
 import com.friends.dao.Staff_Info_Dao;
 import com.friends.dto.*;
+import com.friends.model.Emp_Info_Entity;
 import com.friends.utils.encryption.EncryptDecryptRSAUtil;
 import com.friends.model.Staff_Info_Entity;
 import com.friends.service.GetEmpRole;
@@ -24,6 +26,9 @@ public class Login_Serv_Impl implements GetEmpRole {
     private final static Logger logger = Logger.getLogger(Login_Serv_Impl.class.getName());
 
     @Autowired
+    private Emp_Info_Dao empInfoDao;
+
+    @Autowired
     private Staff_Info_Dao staffInfoDao;
 
     @Autowired
@@ -40,33 +45,52 @@ public class Login_Serv_Impl implements GetEmpRole {
         Login_Res_Dto loginResDto = null;
         try {
             if (loginReqDto != null && loginReqDto.getEmp_Id() != null) {
-                Optional<Staff_Info_Entity> staffInfoEntity = staffInfoDao.findByFldEmpId(loginReqDto.getEmp_Id());
-                if (staffInfoEntity.isPresent()) {
-                    Staff_Info_Dto staffInfoDto = beanUtils.getStaffInfoDto(staffInfoEntity.get());
-                    List<String> allBatchNums = new ArrayList<>();
-                    if (staffInfoDto.getFldSpecialization().equals(Constants.trainee)) {
-                        for (Batch_Info_Dto batchInfoDto : staffInfoDto.getFld_Staff_Id()) {
-                            allBatchNums.add(batchInfoDto.getFldBatchName());
-                        }
-                    } else {
-                        Optional<List<String>> getAllbatchesOpt = batchInfoDao.getAllBatchesNames();
-                        if (getAllbatchesOpt.isPresent()) {
-                            allBatchNums = getAllbatchesOpt.get();
-                        }
+                if(loginReqDto.getEmp_Id().startsWith(Constants.idStart)){
+                    Optional<Emp_Info_Entity> empInfoEntity = empInfoDao.findByFldEmpId(loginReqDto.getEmp_Id());
+                    if(empInfoEntity.isPresent()) {
+                        loginResDto = Login_Res_Dto.builder()
+                                .role(Constants.employee)
+                                .empName(empInfoEntity.get().getFldFullName())
+                                .statusCode(Constants.status_Success)
+                                .batchNums(new ArrayList<>())
+                                .errorMsg(null)
+                                .build();
+                    }else {
+                        loginResDto = Login_Res_Dto.builder()
+                                .role(null)
+                                .statusCode(Constants.status_Failure)
+                                .errorMsg(Constants.errorMsg)
+                                .build();
                     }
-                    loginResDto = Login_Res_Dto.builder()
-                            .role(staffInfoDto.getFldSpecialization())
-                            .empName(staffInfoDto.getFldFullName())
-                            .statusCode(Constants.status_Success)
-                            .batchNums(allBatchNums)
-                            .errorMsg(null)
-                            .build();
-                } else {
-                    loginResDto = Login_Res_Dto.builder()
-                            .role(null)
-                            .statusCode(Constants.status_Failure)
-                            .errorMsg(Constants.errorMsg)
-                            .build();
+                }else {
+                    Optional<Staff_Info_Entity> staffInfoEntity = staffInfoDao.findByFldEmpId(loginReqDto.getEmp_Id());
+                    if (staffInfoEntity.isPresent()) {
+                        Staff_Info_Dto staffInfoDto = beanUtils.getStaffInfoDto(staffInfoEntity.get());
+                        List<String> allBatchNums = new ArrayList<>();
+                        if (staffInfoDto.getFldSpecialization().equals(Constants.trainee)) {
+                            for (Batch_Info_Dto batchInfoDto : staffInfoDto.getFld_Staff_Id()) {
+                                allBatchNums.add(batchInfoDto.getFldBatchName());
+                            }
+                        } else {
+                            Optional<List<String>> getAllbatchesOpt = batchInfoDao.getAllBatchesNames();
+                            if (getAllbatchesOpt.isPresent()) {
+                                allBatchNums = getAllbatchesOpt.get();
+                            }
+                        }
+                        loginResDto = Login_Res_Dto.builder()
+                                .role(staffInfoDto.getFldSpecialization())
+                                .empName(staffInfoDto.getFldFullName())
+                                .statusCode(Constants.status_Success)
+                                .batchNums(allBatchNums)
+                                .errorMsg(null)
+                                .build();
+                    } else {
+                        loginResDto = Login_Res_Dto.builder()
+                                .role(null)
+                                .statusCode(Constants.status_Failure)
+                                .errorMsg(Constants.errorMsg)
+                                .build();
+                    }
                 }
             } else {
                 loginResDto = Login_Res_Dto.builder()

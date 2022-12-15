@@ -29,6 +29,9 @@ public class Emp_Info_Dto {
     @JsonProperty("EmpStatus")
     private String fldStatus;
 
+    @JsonProperty("Password")
+    private String fldPassword;
+
     public String getFldEmpId() {
         return trimStr(fldEmpId);
     }
@@ -83,5 +86,13 @@ public class Emp_Info_Dto {
 
     public void setFldStatus(String fldStatus) {
         this.fldStatus = trimStr(fldStatus);
+    }
+
+    public String getFldPassword() {
+        return trimStr(fldPassword);
+    }
+
+    public void setFldPassword(String fldPassword) {
+        this.fldPassword = trimStr(fldPassword);
     }
 }

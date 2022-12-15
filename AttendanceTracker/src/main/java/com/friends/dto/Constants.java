@@ -7,7 +7,8 @@ public class Constants {
     public static String status_Success = "0";
     public static String status_Failure = "1";
     public static String hr = "HR";
-    public static String trainee = "TRAINEE";
+    public static String trainee = "TRAINER";
+    public static String employee = "EMPLOYEE";
     public static String stutusTraining = "TRAINING";
     public static String pmo = "PMO";
     public static String empRegError = "Employee information should not be empty.";

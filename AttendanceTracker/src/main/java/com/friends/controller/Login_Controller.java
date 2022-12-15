@@ -11,12 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,6 +41,7 @@ public class Login_Controller {
 
     @PostMapping("/authenticateUser")
     public ResponseEntity<GenerateTokenDto> generateToken(@Valid @RequestBody Login_Req_Dto loginReqDto){
+
         GenerateTokenDto generateTokenDto = null;
         try {
             if(loginReqDto != null && StringUtils.isNotBlank(loginReqDto.getEmp_Id()) && StringUtils.isNotBlank(loginReqDto.getPassword())) {
@@ -55,10 +59,7 @@ public class Login_Controller {
             }
         }catch (Exception e){
             logger.log(Level.SEVERE, getStackTrace(e));
-            generateTokenDto = GenerateTokenDto.builder()
-                    .errorCode(Constants.status_Failure)
-                    .errorMsg(Constants.errorMsg)
-                    .build();
+            throw new UsernameNotFoundException("User not Found, Invalid Employee Id or Password");
         }
 
         return ResponseEntity.ok(generateTokenDto);
@@ -66,7 +67,15 @@ public class Login_Controller {
 
     @PostMapping("/getEmpRole")
     public ResponseEntity<Login_Res_Dto> getEmpRole(@Valid @RequestBody Login_Req_Dto loginReqDto){
-        Login_Res_Dto loginResDto = getEmpRole.getEmpRoleServ(loginReqDto);
+        Login_Res_Dto loginResDto = null;
+        if(loginReqDto != null && StringUtils.isNotBlank(loginReqDto.getEmp_Id())) {
+            loginResDto = getEmpRole.getEmpRoleServ(loginReqDto);
+        }else {
+            loginResDto = Login_Res_Dto.builder()
+                    .statusCode(Constants.status_Failure)
+                    .errorMsg(Constants.emptyLoginCred)
+                    .build();
+        }
         return ResponseEntity.ok(loginResDto);
     }
 }

@@ -1,6 +1,6 @@
 package com.friends.config;
 
-import com.friends.service.impl.CusotmUserDetailsService;
+import com.friends.service.impl.CustomUserDetailsService;
 import com.friends.utils.jwt.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtFilter jwtFilter;
 
     @Autowired
-    private CusotmUserDetailsService userDetailsService;
+    private CustomUserDetailsService userDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

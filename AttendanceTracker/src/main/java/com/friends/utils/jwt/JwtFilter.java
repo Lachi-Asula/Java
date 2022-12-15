@@ -1,7 +1,8 @@
 package com.friends.utils.jwt;
 
 import com.friends.dto.Constants;
-import com.friends.service.impl.CusotmUserDetailsService;
+import com.friends.service.impl.CustomUserDetailsService;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,24 +25,29 @@ public class JwtFilter extends OncePerRequestFilter {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private CusotmUserDetailsService userDetailsService;
+    private CustomUserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader(Constants.authorization);
         String token = null, userName = null;
-        if (StringUtils.isNotBlank(authorizationHeader) && authorizationHeader.startsWith(Constants.bearerKey)) {
-            token = authorizationHeader.substring(7);
-            userName = jwtUtil.getUsername(token);
-        }
-        if (StringUtils.isNotBlank(userName) && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-            if (jwtUtil.isTokenValidated(token, userDetails.getUsername())) {
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+        try {
+            if (StringUtils.isNotBlank(authorizationHeader) && authorizationHeader.startsWith(Constants.bearerKey)) {
+                token = authorizationHeader.substring(7);
+                userName = jwtUtil.getUsername(token);
             }
+            if (StringUtils.isNotBlank(userName) && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+                    if (jwtUtil.isTokenValidated(token, userDetails.getUsername())) {
+                        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                                userDetails, null, userDetails.getAuthorities());
+                        usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                    }
+
+            }
+        }catch (ExpiredJwtException e){
+            throw new ServletException("Token has Expired!");
         }
         filterChain.doFilter(request, response);
     }
