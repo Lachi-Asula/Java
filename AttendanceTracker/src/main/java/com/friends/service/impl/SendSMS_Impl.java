@@ -28,7 +28,7 @@ import static com.friends.utils.AdapterUtils.getStackTrace;
 @Service
 public class SendSMS_Impl implements SendSMS {
 
-    Logger logger = Logger.getLogger(SendSMS_Impl.class.getName());
+    private static final Logger logger = Logger.getLogger(SendSMS_Impl.class.getName());
 
     @Value("${account_Sid}")
     private String ACCOUNT_SID;

@@ -38,39 +38,29 @@ public class Login_Serv_Impl implements GetEmpRole {
     @Override
     public Login_Res_Dto getEmpRoleServ(Login_Req_Dto loginReqDto) {
         Login_Res_Dto loginResDto = null;
-        String password = null;
         try {
-            if (loginReqDto != null && loginReqDto.getEmp_Id() != null && loginReqDto.getPassword() != null) {
+            if (loginReqDto != null && loginReqDto.getEmp_Id() != null) {
                 Optional<Staff_Info_Entity> staffInfoEntity = staffInfoDao.findByFldEmpId(loginReqDto.getEmp_Id());
                 if (staffInfoEntity.isPresent()) {
                     Staff_Info_Dto staffInfoDto = beanUtils.getStaffInfoDto(staffInfoEntity.get());
-                    password = encDecUsingRSA.decode(staffInfoDto.getFldPassword());
-                    if (password != null && password.equalsIgnoreCase(loginReqDto.getPassword())) {
-                        List<String> allBatchNums = new ArrayList<>();
-                        if (staffInfoDto.getFldSpecialization().equals(Constants.trainee)) {
-                            for (Batch_Info_Dto batchInfoDto : staffInfoDto.getFld_Staff_Id()) {
-                                allBatchNums.add(batchInfoDto.getFldBatchName());
-                            }
-                        } else {
-                            Optional<List<String>> getAllbatchesOpt = batchInfoDao.getAllBatchesNames();
-                            if (getAllbatchesOpt.isPresent()) {
-                                allBatchNums = getAllbatchesOpt.get();
-                            }
+                    List<String> allBatchNums = new ArrayList<>();
+                    if (staffInfoDto.getFldSpecialization().equals(Constants.trainee)) {
+                        for (Batch_Info_Dto batchInfoDto : staffInfoDto.getFld_Staff_Id()) {
+                            allBatchNums.add(batchInfoDto.getFldBatchName());
                         }
-                        loginResDto = Login_Res_Dto.builder()
-                                .role(staffInfoDto.getFldSpecialization())
-                                .empName(staffInfoDto.getFldFullName())
-                                .statusCode(Constants.status_Success)
-                                .batchNums(allBatchNums)
-                                .errorMsg(null)
-                                .build();
                     } else {
-                        loginResDto = Login_Res_Dto.builder()
-                                .role(null)
-                                .statusCode(Constants.status_Failure)
-                                .errorMsg(Constants.errorMsg)
-                                .build();
+                        Optional<List<String>> getAllbatchesOpt = batchInfoDao.getAllBatchesNames();
+                        if (getAllbatchesOpt.isPresent()) {
+                            allBatchNums = getAllbatchesOpt.get();
+                        }
                     }
+                    loginResDto = Login_Res_Dto.builder()
+                            .role(staffInfoDto.getFldSpecialization())
+                            .empName(staffInfoDto.getFldFullName())
+                            .statusCode(Constants.status_Success)
+                            .batchNums(allBatchNums)
+                            .errorMsg(null)
+                            .build();
                 } else {
                     loginResDto = Login_Res_Dto.builder()
                             .role(null)
@@ -82,10 +72,11 @@ public class Login_Serv_Impl implements GetEmpRole {
                 loginResDto = Login_Res_Dto.builder()
                         .role(null)
                         .statusCode(Constants.status_Failure)
-                        .errorMsg(Constants.emptyLoginCred)
+                        .errorMsg(Constants.errorMsg)
                         .build();
             }
-        }catch (Exception e){
+
+        } catch (Exception e) {
             logger.log(Level.SEVERE, getStackTrace(e));
             loginResDto = Login_Res_Dto.builder()
                     .role(null)
@@ -100,12 +91,12 @@ public class Login_Serv_Impl implements GetEmpRole {
     public Login_Res_Dto getAllbatches() {
         Login_Res_Dto loginResDto;
         Optional<List<String>> allBatches = batchInfoDao.getAllBatchesNames();
-        if(allBatches.isPresent()){
+        if (allBatches.isPresent()) {
             loginResDto = Login_Res_Dto.builder()
                     .batchNums(allBatches.get())
                     .statusCode(Constants.status_Success)
                     .build();
-        }else {
+        } else {
             loginResDto = Login_Res_Dto.builder()
                     .statusCode(Constants.status_Failure)
                     .errorMsg(Constants.noData)

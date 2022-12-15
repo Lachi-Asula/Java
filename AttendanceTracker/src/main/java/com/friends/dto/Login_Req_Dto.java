@@ -18,8 +18,6 @@ public class Login_Req_Dto {
     @JsonProperty("EmpID")
     private String emp_Id;
 
-    @NotNull(message = "Password should not be null or Empty")
-    @NotEmpty(message = "Password should not be Empty or null")
     @JsonProperty("Password")
     private String password;
 

@@ -1,8 +1,6 @@
 package com.friends.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import lombok.Data;
 import lombok.ToString;
 
 import java.util.List;

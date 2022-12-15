@@ -32,7 +32,7 @@ public class Staff_Info_Entity {
     @Column(name = "FLD_PASSWORD")
     private String fldPassword;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "FLD_STAFF_ID", referencedColumnName = "FLD_EMP_ID")
     private List<Batch_Info_Entity> fld_Staff_Id;
 }

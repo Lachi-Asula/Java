@@ -30,5 +30,7 @@ public class Constants {
     public static String unverifiedNumber = "The number is unverified.";
     public static String emailSubject = "AttendanceTracker | Update Password";
     public static String emptyEmailId = "Email Id And Emp Id should be empty or null";
-
+    public static String TOKEN_ISSUER = "Lakshminarayana Asula";
+    public static String authorization = "Authorization";
+    public static String bearerKey = "Bearer ";
 }
