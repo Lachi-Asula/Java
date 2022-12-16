@@ -1,22 +1,18 @@
 package com.friends.controller;
 
-import com.friends.dto.Constants;
-import com.friends.dto.GenerateTokenDto;
-import com.friends.dto.Login_Req_Dto;
-import com.friends.dto.Login_Res_Dto;
+import com.friends.dto.*;
 import com.friends.service.GetEmpRole;
+import com.friends.utils.AdapterUtils;
+import com.friends.utils.exception.BadRequestException;
 import com.friends.utils.jwt.JwtUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -65,11 +61,11 @@ public class Login_Controller {
         return ResponseEntity.ok(generateTokenDto);
     }
 
-    @PostMapping("/getEmpRole")
-    public ResponseEntity<Login_Res_Dto> getEmpRole(@Valid @RequestBody Login_Req_Dto loginReqDto){
+    @GetMapping("/getEmpRole")
+    public ResponseEntity<Login_Res_Dto> getEmpRole(@RequestParam("StaffOrEmployeeId") String empId){
         Login_Res_Dto loginResDto = null;
-        if(loginReqDto != null && StringUtils.isNotBlank(loginReqDto.getEmp_Id())) {
-            loginResDto = getEmpRole.getEmpRoleServ(loginReqDto);
+        if(StringUtils.isNotBlank(empId)) {
+            loginResDto = getEmpRole.getEmpRoleServ(empId);
         }else {
             loginResDto = Login_Res_Dto.builder()
                     .statusCode(Constants.status_Failure)
@@ -77,5 +73,15 @@ public class Login_Controller {
                     .build();
         }
         return ResponseEntity.ok(loginResDto);
+    }
+
+    @GetMapping("/getCalenderInfo")
+    public ResponseEntity<GetCalenderInfo> getCalenderInfo(){
+        GetCalenderInfo getCalenderInfo = GetCalenderInfo.builder()
+                .yearInfo(AdapterUtils.getYears())
+                .monthInfo(AdapterUtils.getMonths())
+                .build();
+
+        return ResponseEntity.ok(getCalenderInfo);
     }
 }

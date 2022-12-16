@@ -13,7 +13,7 @@ public class Login_Res_Dto {
     @JsonProperty("Role")
     private String role;
 
-    @JsonProperty("EmployeeName")
+    @JsonProperty("StaffOrEmployeeName")
     private String empName;
 
     @JsonProperty("BatchNums")

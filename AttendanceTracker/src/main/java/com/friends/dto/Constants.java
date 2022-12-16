@@ -34,4 +34,19 @@ public class Constants {
     public static String TOKEN_ISSUER = "Lakshminarayana Asula";
     public static String authorization = "Authorization";
     public static String bearerKey = "Bearer ";
+
+    //Batch info
+    public static String batch_201 = "MCA201";
+    public static String batch_202 = "MCA202";
+    public static String batch_203 = "MCA203";
+    public static String batch_401 = "CSE401";
+    public static String batch_402 = "CSE402";
+    public static String saveSuccess = "Attendance saved successfully!";
+    public static String saveFailure = "Connection error, please try again.";
+    public static String status_Present = "PRESENT";
+    public static String statuc_Absent = "ABSENT";
+    public static String invalidBatch = "Invalid batch number.";
+    public static String alreadySavedAttendance = "Today's Attendance already registered!, please try later.";
+    public static String invalidEmpId = "Invalid Employee or Staff ID.";
+    public static String invalidKey = "Invalid Key!";
 }

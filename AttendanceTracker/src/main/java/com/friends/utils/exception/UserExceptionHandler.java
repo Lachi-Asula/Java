@@ -10,15 +10,17 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 
 import javax.servlet.ServletException;
-import java.io.IOException;
-import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
+
 
 import static com.friends.utils.AdapterUtils.getTimeStamp;
+import static com.friends.utils.AdapterUtils.getTimeStamp1;
 
 @ControllerAdvice
 public class UserExceptionHandler extends ResponseEntityExceptionHandler {
@@ -27,7 +29,7 @@ public class UserExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<CommonException> handleUserNotFoundException(UsernameNotFoundException usernameNotFoundException, WebRequest request){
         CommonException commonException = null;
             commonException = CommonException.builder()
-                    .timeStamp(getTimeStamp())
+                    .timeStamp(getTimeStamp1())
                     .statusCode(HttpStatus.NOT_FOUND)
                     .errorCode(Constants.status_Failure)
                     .errorMsg(usernameNotFoundException.getMessage())
@@ -35,17 +37,16 @@ public class UserExceptionHandler extends ResponseEntityExceptionHandler {
             return new ResponseEntity<>(commonException, HttpStatus.NOT_FOUND);
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    @ExceptionHandler(value = ServletException.class)
-    public ResponseEntity<CommonException> handleExpiredJWTTokenException(ServletException servletException, WebRequest request){
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<CommonException> handleBadRequestxception(HttpServletRequest badRequest, WebRequest request){
         CommonException commonException = null;
-        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         commonException = CommonException.builder()
-                .timeStamp(getTimeStamp())
-                .statusCode(HttpStatus.UNAUTHORIZED)
+                .timeStamp(getTimeStamp1())
+                .statusCode(HttpStatus.BAD_REQUEST)
                 .errorCode(Constants.status_Failure)
-                .errorMsg(servletException.getMessage())
+                .errorMsg(Constants.invalidKey)
                 .build();
         return new ResponseEntity<>(commonException, httpStatus);
     }

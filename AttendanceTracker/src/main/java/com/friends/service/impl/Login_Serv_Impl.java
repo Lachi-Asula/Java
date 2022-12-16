@@ -9,6 +9,7 @@ import com.friends.utils.encryption.EncryptDecryptRSAUtil;
 import com.friends.model.Staff_Info_Entity;
 import com.friends.service.GetEmpRole;
 import com.friends.utils.BeanUtilsDemo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,12 +42,12 @@ public class Login_Serv_Impl implements GetEmpRole {
     private EncryptDecryptRSAUtil encDecUsingRSA;
 
     @Override
-    public Login_Res_Dto getEmpRoleServ(Login_Req_Dto loginReqDto) {
+    public Login_Res_Dto getEmpRoleServ(String empId) {
         Login_Res_Dto loginResDto = null;
         try {
-            if (loginReqDto != null && loginReqDto.getEmp_Id() != null) {
-                if(loginReqDto.getEmp_Id().startsWith(Constants.idStart)){
-                    Optional<Emp_Info_Entity> empInfoEntity = empInfoDao.findByFldEmpId(loginReqDto.getEmp_Id());
+            if (StringUtils.isNotBlank(empId)) {
+                if(empId.startsWith(Constants.idStart)){
+                    Optional<Emp_Info_Entity> empInfoEntity = empInfoDao.findByFldEmpId(empId);
                     if(empInfoEntity.isPresent()) {
                         loginResDto = Login_Res_Dto.builder()
                                 .role(Constants.employee)
@@ -59,11 +60,11 @@ public class Login_Serv_Impl implements GetEmpRole {
                         loginResDto = Login_Res_Dto.builder()
                                 .role(null)
                                 .statusCode(Constants.status_Failure)
-                                .errorMsg(Constants.errorMsg)
+                                .errorMsg(Constants.invalidEmpId)
                                 .build();
                     }
                 }else {
-                    Optional<Staff_Info_Entity> staffInfoEntity = staffInfoDao.findByFldEmpId(loginReqDto.getEmp_Id());
+                    Optional<Staff_Info_Entity> staffInfoEntity = staffInfoDao.findByFldEmpId(empId);
                     if (staffInfoEntity.isPresent()) {
                         Staff_Info_Dto staffInfoDto = beanUtils.getStaffInfoDto(staffInfoEntity.get());
                         List<String> allBatchNums = new ArrayList<>();
@@ -88,7 +89,7 @@ public class Login_Serv_Impl implements GetEmpRole {
                         loginResDto = Login_Res_Dto.builder()
                                 .role(null)
                                 .statusCode(Constants.status_Failure)
-                                .errorMsg(Constants.errorMsg)
+                                .errorMsg(Constants.invalidEmpId)
                                 .build();
                     }
                 }
