@@ -1,10 +1,9 @@
 package com.friends.controller;
 
 
-import com.friends.dto.Attendance_Batch_Dto;
-import com.friends.dto.CommonResponse;
-import com.friends.dto.GetEmpInfo_BasedOn_BatchNum;
-import com.friends.dto.Login_Res_Dto;
+import com.friends.dto.*;
+import com.friends.model.Batch_CSE401_Entity;
+import com.friends.model.Batch_MCA201_Entity;
 import com.friends.service.Attendance_Batch;
 import com.friends.service.GetBatch_Info;
 import com.friends.service.GetEmpRole;
@@ -47,4 +46,10 @@ public class AttendanceController {
     public ResponseEntity<CommonResponse> saveEmployeeInfo(@RequestBody List<Attendance_Batch_Dto> attendanceBatchDto){
         return ResponseEntity.ok(attendanceBatch.saveAttendance(attendanceBatchDto));
     }
+
+    @PostMapping("/getEmployeeAttendanceStatus")
+    public ResponseEntity<EmployeeAttendanceStatusResDto> getEmployeeStatus(@RequestBody EmployeeAttendanceStatusReqDto statusReqDto){
+        return ResponseEntity.ok(attendanceBatch.getStatusOfEmployeeAttendance(statusReqDto));
+    }
+
 }

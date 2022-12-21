@@ -2,14 +2,19 @@ package com.friends.model;
 
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "TBL_AUDIT_MCA201")
 @Data
 @Builder
 public class Batch_MCA201_Entity {
+
+    @Column(name = "FLD_CREATED_DATE", insertable = false, updatable = false)
+    private String timeStampValue;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "batch01")
@@ -38,7 +43,8 @@ public class Batch_MCA201_Entity {
     public Batch_MCA201_Entity() {
     }
 
-    public Batch_MCA201_Entity(int id, String fldEmpId, String fldFullName, String fldStaffName, String fldYear, String fldMonth, String fldStatus) {
+    public Batch_MCA201_Entity(String timeStampValue, int id, String fldEmpId, String fldFullName, String fldStaffName, String fldYear, String fldMonth, String fldStatus) {
+        this.timeStampValue = timeStampValue;
         this.id = id;
         this.fldEmpId = fldEmpId;
         this.fldFullName = fldFullName;

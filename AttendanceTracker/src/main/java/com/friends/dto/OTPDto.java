@@ -1,6 +1,7 @@
 package com.friends.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
@@ -8,22 +9,26 @@ import static com.friends.utils.AdapterUtils.trimStr;
 
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EmailDto {
+public class OTPDto {
+
     @JsonProperty("EmailId")
     private String emailId;
 
     @JsonProperty("EmpStaffId")
     private String empStaffId;
+    private String message;
 
     @JsonProperty("OTPValue")
     private String otpValue;
-    private String message;
+
+    @JsonProperty("Password")
+    private String password;
 
     public String getEmailId() {
         return trimStr(emailId);
     }
 
-    public void setEmailId(String emailId) {
+    public void setMobileNum(String emailId) {
         this.emailId = trimStr(emailId);
     }
 
@@ -35,14 +40,6 @@ public class EmailDto {
         this.empStaffId = trimStr(empStaffId);
     }
 
-    public String getOtpValue() {
-        return trimStr(otpValue);
-    }
-
-    public void setOtpValue(String otpValue) {
-        this.otpValue = trimStr(otpValue);
-    }
-
     public String getMessage() {
         return trimStr(message);
     }
@@ -51,13 +48,34 @@ public class EmailDto {
         this.message = trimStr(message);
     }
 
-    public EmailDto() {
+    public String getOtpValue() {
+        return trimStr(otpValue);
     }
 
-    public EmailDto(String emailId, String empStaffId, String otpValue, String message) {
-        this.emailId = trimStr(emailId);
-        this.empStaffId = trimStr(empStaffId);
+    public void setOtpValue(String otpValue) {
         this.otpValue = trimStr(otpValue);
-        this.message = trimStr(message);
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = trimStr(emailId);
+    }
+
+    public String getPassword() {
+        return trimStr(password);
+    }
+
+    public void setPassword(String password) {
+        this.password = trimStr(password);
+    }
+
+    public OTPDto() {
+    }
+
+    public OTPDto(String emailId, String empStaffId, String message, String otpValue, String password) {
+        this.emailId = emailId;
+        this.empStaffId = empStaffId;
+        this.message = message;
+        this.otpValue = otpValue;
+        this.password = password;
     }
 }

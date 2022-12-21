@@ -45,7 +45,7 @@ public class Login_Controller {
                 String token = jwtUtil.generateToken(loginReqDto.getEmp_Id());
                 generateTokenDto = GenerateTokenDto.builder()
                         .token(token)
-                        .errorMsg(Constants.status_Success)
+                        .errorCode(Constants.status_Success)
                         .build();
             }else {
                 generateTokenDto = GenerateTokenDto.builder()

@@ -6,6 +6,7 @@ import com.friends.dto.Constants;
 import com.friends.dto.Emp_Info_Dto;
 import com.friends.model.Emp_Info_Entity;
 import com.friends.service.Emp_Register;
+import com.friends.service.OTPService;
 import com.friends.utils.BeanUtilsDemo;
 import com.friends.utils.encryption.EncryptDecryptRSAUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class Emp_Registration_Impl implements Emp_Register {
     private BeanUtilsDemo beanUtils;
 
     @Autowired
+    private OTPService otpService;
+
+    @Autowired
     private EncryptDecryptRSAUtil encryptDecryptRSAUtil;
 
     @Override
@@ -38,6 +42,7 @@ public class Emp_Registration_Impl implements Emp_Register {
                     empInfoDto.setFldEmpId(empId);
                     Emp_Info_Entity emp_info_entity = beanUtils.getEmpInfoEntity(empInfoDto);
                     empInfoDao.save(emp_info_entity);
+                    otpService.sendGreetingsToEmail(empInfoDto.getFldEmailId(), empInfoDto.getFldEmpId(), empInfoDto.getFldFullName(), encryptDecryptRSAUtil.decode(empInfoDto.getFldPassword()));
                     commonResponse = CommonResponse.builder()
                         .statusCode("0")
                         .message(Constants.successEmpRegister + empInfoDto.getFldEmpId())

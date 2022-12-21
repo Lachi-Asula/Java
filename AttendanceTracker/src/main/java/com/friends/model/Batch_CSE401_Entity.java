@@ -11,6 +11,9 @@ import javax.persistence.*;
 @Builder
 public class Batch_CSE401_Entity {
 
+    @Column(name = "FLD_CREATED_DATE", insertable = false, updatable = false)
+    private String timeStampValue;
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "batch04")
     @SequenceGenerator(allocationSize = 1, name = "batch04")
@@ -38,7 +41,8 @@ public class Batch_CSE401_Entity {
     public Batch_CSE401_Entity() {
     }
 
-    public Batch_CSE401_Entity(int id, String fldEmpId, String fldFullName, String fldStaffName, String fldYear, String fldMonth, String fldStatus) {
+    public Batch_CSE401_Entity(String timeStampValue, int id, String fldEmpId, String fldFullName, String fldStaffName, String fldYear, String fldMonth, String fldStatus) {
+        this.timeStampValue = timeStampValue;
         this.id = id;
         this.fldEmpId = fldEmpId;
         this.fldFullName = fldFullName;

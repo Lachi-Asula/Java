@@ -9,8 +9,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AdapterUtils {
+
+    private static final Logger logger = Logger.getLogger(AdapterUtils.class.getName());
     public static int DIVIDER = 10000;
     public static int LENGTH = ((DIVIDER + "").length() - 1);
     public static String FORMAT = "%0" + LENGTH + "d";
@@ -101,12 +105,64 @@ public class AdapterUtils {
         return false;
     }
 
+    public static List<String> getTimeStampsForStatus(List<String> formatDays){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss a");
+        List<String> days = new ArrayList<>();
+        Date date = null;
+        String finalDate = null;
+        try {
+            for (String day : formatDays) {
+                day = dateModification(day);
+                date = simpleDateFormat.parse(day);
+                finalDate = simpleDateFormat2.format(date);
+                days.add(finalDate);
+            }
+        }catch (Exception e){
+            logger.log(Level.SEVERE, getStackTrace(e));
+        }
+        return days;
+    }
 
-    public static void main(String[] args) {
-       // System.out.println(getPresentYear());
+    public static String getTimeStampsForSingleStatus(String formatDays){
+        String finalDate = null;
+        try {
+           SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+           SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss a");
+           Date date = null;
+           formatDays = dateModification(formatDays);
+           date = simpleDateFormat.parse(formatDays);
+           finalDate = simpleDateFormat2.format(date);
+       }catch (Exception e){
+           e.printStackTrace();
+       }
+        return finalDate;
+    }
+
+    private static String dateModification(String date){
+        String modifiedDate = null;
+        try{
+            if(StringUtils.isNotBlank(date)){
+                String[] dateSplit = date.split("\\.");
+                String[] dateSplit2 = dateSplit[1].split(" ");
+                modifiedDate = date.replaceAll(dateSplit2[0], "");
+            }else {
+                return date;
+            }
+        }catch (Exception e){
+            return date;
+        }
+
+        return modifiedDate;
+    }
+
+    /*public static void main(String[] args) {
+        System.out.println(getPresentYear());
         String date = "16-12-22 3:54:00.685000000 PM";
         System.out.println(compareDbDateWithCurrentDate(date));
-    }
+
+        String date = "2022-12-17 11:45:14.523";
+    }*/
 
 
 

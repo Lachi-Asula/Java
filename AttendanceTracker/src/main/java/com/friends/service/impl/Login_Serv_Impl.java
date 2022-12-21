@@ -49,11 +49,13 @@ public class Login_Serv_Impl implements GetEmpRole {
                 if(empId.startsWith(Constants.idStart)){
                     Optional<Emp_Info_Entity> empInfoEntity = empInfoDao.findByFldEmpId(empId);
                     if(empInfoEntity.isPresent()) {
+                        Emp_Info_Entity empInfo = empInfoEntity.get();
                         loginResDto = Login_Res_Dto.builder()
                                 .role(Constants.employee)
-                                .empName(empInfoEntity.get().getFldFullName())
+                                .empId(empInfo.getFldEmpId())
+                                .empName(empInfo.getFldFullName())
                                 .statusCode(Constants.status_Success)
-                                .batchNums(new ArrayList<>())
+                                .batchNum(empInfo.getFldBatchNum())
                                 .errorMsg(null)
                                 .build();
                     }else {
@@ -80,7 +82,8 @@ public class Login_Serv_Impl implements GetEmpRole {
                         }
                         loginResDto = Login_Res_Dto.builder()
                                 .role(staffInfoDto.getFldSpecialization())
-                                .empName(staffInfoDto.getFldFullName())
+                                .staffId(staffInfoDto.getFldEmpId())
+                                .staffName(staffInfoDto.getFldFullName())
                                 .statusCode(Constants.status_Success)
                                 .batchNums(allBatchNums)
                                 .errorMsg(null)

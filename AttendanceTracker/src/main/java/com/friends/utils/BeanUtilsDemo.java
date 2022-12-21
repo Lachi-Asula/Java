@@ -3,7 +3,6 @@ package com.friends.utils;
 import com.friends.dto.*;
 import com.friends.model.Batch_Info_Entity;
 import com.friends.model.Emp_Info_Entity;
-import com.friends.model.Sms_Info_Entity;
 import com.friends.model.Staff_Info_Entity;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -109,27 +108,5 @@ public class BeanUtilsDemo {
         }
 
         return empInfoDtoList;
-    }
-
-    public Sms_Info_Entity getSmsInfoEntity(Sms_Info_Dto smsInfoDto){
-        Sms_Info_Entity smsInfoEntity = new Sms_Info_Entity();
-        try {
-            BeanUtils.copyProperties(smsInfoDto, smsInfoEntity);
-        }catch (Exception e){
-            logger.log(Level.SEVERE, getStackTrace(e));
-        }
-
-        return smsInfoEntity;
-    }
-
-    public Sms_Info_Dto getSmsInfoEntity(Sms_Info_Entity smsInfoEntity){
-        Sms_Info_Dto smsInfoDto = new Sms_Info_Dto();
-        try {
-            BeanUtils.copyProperties(smsInfoEntity, smsInfoDto);
-        }catch (Exception e){
-            logger.log(Level.SEVERE, getStackTrace(e));
-        }
-
-        return smsInfoDto;
     }
 }

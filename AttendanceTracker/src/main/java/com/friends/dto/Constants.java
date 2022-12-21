@@ -1,6 +1,7 @@
 package com.friends.dto;
 
 public class Constants {
+    public static String emptyEmpIdBatchNum = "Employee Id and Batch Number should not be empty or null";
     public static String emptyLoginCred = "Employee Id and Password should be empty or null.";
     public static String errorMsg = "Invalid Employee Id or Password.";
     public static String idStart = "YES";
@@ -17,7 +18,7 @@ public class Constants {
     public static String noData = "No Data found";
     public static String emptyBatchNum = "Batch Number should not be empty or null.";
     public static String successEmpInfo = "Successfully Employee information retrieved.";
-    public static String otpMsg = " is your verification code. DO NOT disclose it to anyone." + System.lineSeparator() + "\nThanks for using Attendance Tracker Application.";
+    public static String otpMsg = " is your verification code. DO NOT disclose it to anyone.";
     public static String invalidEmpStaffId = "Invalid EMPLOYEE or STAFF Id.";
     public static String otpStatus = "sent";
     public static String failureOtpSent = "Failed to send OTP.";
@@ -29,8 +30,10 @@ public class Constants {
     public static String validOtp = "Valid OTP.";
     public static String invalidOtp = "Invalid OTP, please try again.";
     public static String unverifiedNumber = "The number is unverified.";
-    public static String emailSubject = "AttendanceTracker | Update Password";
-    public static String emptyEmailId = "Email Id And Emp Id should be empty or null";
+    public static String emailSubject_ForgotPassword = "AttendanceTracker | Forgot Password";
+    public static String emailSubject_UpdatePassword = "AttendanceTracker | Update Password";
+    public static String emailSubject_Greetings = "AttendanceTracker | Welcome";
+    public static String emptyEmailId = "Employee Id And Email Id should be empty or null";
     public static String TOKEN_ISSUER = "Lakshminarayana Asula";
     public static String authorization = "Authorization";
     public static String bearerKey = "Bearer ";
@@ -49,4 +52,9 @@ public class Constants {
     public static String alreadySavedAttendance = "Today's Attendance already registered!, please try later.";
     public static String invalidEmpId = "Invalid Employee or Staff ID.";
     public static String invalidKey = "Invalid Key!";
+    public static String emailThanks_Msg = "\n\nRegards, \nFriends Application";
+    public static String emailReg_Msg = "\n\nRegistration completed Successfully, DO NOT disclose below credentials to anyone.";
+    public static String emailMsg_UpdatePass = "\n\nPassword has been updated Successfully, details are given below and DO NOT disclose it to anyone.";
+    public static String updatePass_Success = "Password has been updated Successfully!";
+    public static String updatePass_EmptyPassword = "Password should not be empty or null";
 }

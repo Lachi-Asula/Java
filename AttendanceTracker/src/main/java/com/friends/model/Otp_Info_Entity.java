@@ -5,9 +5,9 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "TBL_AUDIT_SMS_INFO")
+@Table(name = "TBL_AUDIT_OTP_INFO")
 @Data
-public class Sms_Info_Entity {
+public class Otp_Info_Entity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SMSIDVAL")
