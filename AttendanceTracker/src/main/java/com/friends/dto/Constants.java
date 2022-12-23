@@ -56,5 +56,7 @@ public class Constants {
     public static String emailReg_Msg = "\n\nRegistration completed Successfully, DO NOT disclose below credentials to anyone.";
     public static String emailMsg_UpdatePass = "\n\nPassword has been updated Successfully, details are given below and DO NOT disclose it to anyone.";
     public static String updatePass_Success = "Password has been updated Successfully!";
-    public static String updatePass_EmptyPassword = "Password should not be empty or null";
+    public static String updatePass_EmptyPassword = "Password should not be empty or null.";
+    public static String updateStatus_EmptyData = "Employee Id and Status should not be empty or null.";
+    public static String updateStatus_Success = "Status updated Successfully!, current Status is : ";
 }

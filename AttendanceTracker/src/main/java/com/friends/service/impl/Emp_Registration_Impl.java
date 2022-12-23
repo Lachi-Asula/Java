@@ -13,9 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.friends.utils.AdapterUtils.getStackTrace;
 
 @Service
 public class Emp_Registration_Impl implements Emp_Register {
+    private final static Logger logger = Logger.getLogger(Emp_Registration_Impl.class.getName());
 
     @Autowired
     private Emp_Info_Dao empInfoDao;
@@ -32,36 +37,44 @@ public class Emp_Registration_Impl implements Emp_Register {
     @Override
     public CommonResponse Emp_Registration(Emp_Info_Dto empInfoDto) {
         CommonResponse commonResponse;
-        if(empInfoDto != null){
-            if(empInfoDto.getFldFullName() != null && empInfoDto.getFldEmailId() != null){
-                Optional<Emp_Info_Entity> empInfoEntity = empInfoDao.findByFldFullNameAndFldEmailId(empInfoDto.getFldFullName(), empInfoDto.getFldEmailId());
-                if(!empInfoEntity.isPresent()){
-                    String empId = Constants.idStart + empInfoDao.getnewEmpID();
-                    String password = encryptDecryptRSAUtil.encode(empInfoDto.getFldPassword());
-                    empInfoDto.setFldPassword(password);
-                    empInfoDto.setFldEmpId(empId);
-                    Emp_Info_Entity emp_info_entity = beanUtils.getEmpInfoEntity(empInfoDto);
-                    empInfoDao.save(emp_info_entity);
-                    otpService.sendGreetingsToEmail(empInfoDto.getFldEmailId(), empInfoDto.getFldEmpId(), empInfoDto.getFldFullName(), encryptDecryptRSAUtil.decode(empInfoDto.getFldPassword()));
+        try {
+            if (empInfoDto != null) {
+                if (empInfoDto.getFldFullName() != null && empInfoDto.getFldEmailId() != null) {
+                    Optional<Emp_Info_Entity> empInfoEntity = empInfoDao.findByFldFullNameAndFldEmailId(empInfoDto.getFldFullName(), empInfoDto.getFldEmailId());
+                    if (!empInfoEntity.isPresent()) {
+                        String empId = Constants.idStart + empInfoDao.getnewEmpID();
+                        String password = encryptDecryptRSAUtil.encode(empInfoDto.getFldPassword());
+                        empInfoDto.setFldPassword(password);
+                        empInfoDto.setFldEmpId(empId);
+                        Emp_Info_Entity emp_info_entity = beanUtils.getEmpInfoEntity(empInfoDto);
+                        empInfoDao.save(emp_info_entity);
+                        otpService.sendGreetingsToEmail(empInfoDto.getFldEmailId(), empInfoDto.getFldEmpId(), empInfoDto.getFldFullName(), encryptDecryptRSAUtil.decode(empInfoDto.getFldPassword()));
+                        commonResponse = CommonResponse.builder()
+                                .statusCode(Constants.status_Success)
+                                .message(Constants.successEmpRegister + empInfoDto.getFldEmpId())
+                                .build();
+                    } else {
+                        commonResponse = CommonResponse.builder()
+                                .statusCode(Constants.status_Failure)
+                                .message(Constants.alreadyEmpRegister + empInfoEntity.get().getFldEmpId())
+                                .build();
+                    }
+                } else {
                     commonResponse = CommonResponse.builder()
-                        .statusCode("0")
-                        .message(Constants.successEmpRegister + empInfoDto.getFldEmpId())
-                        .build();
-                }else {
-                    commonResponse = CommonResponse.builder()
-                            .statusCode("1")
-                            .message(Constants.alreadyEmpRegister + empInfoEntity.get().getFldEmpId())
+                            .statusCode(Constants.status_Failure)
+                            .message(Constants.empRegError)
                             .build();
                 }
-            }else {
+            } else {
                 commonResponse = CommonResponse.builder()
-                        .statusCode("1")
+                        .statusCode(Constants.status_Failure)
                         .message(Constants.empRegError)
                         .build();
             }
-        }else {
+        }catch (Exception e){
+            logger.log(Level.SEVERE, getStackTrace(e));
             commonResponse = CommonResponse.builder()
-                    .statusCode("1")
+                    .statusCode(Constants.status_Failure)
                     .message(Constants.empRegError)
                     .build();
         }

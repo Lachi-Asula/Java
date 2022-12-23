@@ -196,50 +196,58 @@ public class Attendance_Batch_Impl implements Attendance_Batch {
     @Override
     public EmployeeAttendanceStatusResDto getStatusOfEmployeeAttendance(EmployeeAttendanceStatusReqDto statusReqDto) {
         EmployeeAttendanceStatusResDto statusResDto = null;
-        if (statusReqDto != null && StringUtils.isNotBlank(statusReqDto.getEmpId()) && StringUtils.isNotBlank(statusReqDto.getBatchNum())) {
-            String batchNum = statusReqDto.getBatchNum();
-            List<PresentDay> presentDays = null;
-            List<Absentday> absentDays = null;
-            if (batchNum.equalsIgnoreCase(Constants.batch_201)) {
-                Optional<List<Batch_MCA201_Entity>> presentDaysFromDb = batchMca201Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.status_Present);
-                Optional<List<Batch_MCA201_Entity>> absentDaysFromDb = batchMca201Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.statuc_Absent);
-                presentDays = getPresentDaysDto1(presentDaysFromDb);
-                absentDays = getAbsentDaysDto1(absentDaysFromDb);
-                statusResDto = getFinalStatusReportOfEmployeeAttendance(presentDays, absentDays);
-            } else if (batchNum.equalsIgnoreCase(Constants.batch_202)) {
-                Optional<List<Batch_MCA202_Entity>> presentDaysFromDb = batchMca202Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.status_Present);
-                Optional<List<Batch_MCA202_Entity>> absentDaysFromDb = batchMca202Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.statuc_Absent);
-                presentDays = getPresentDaysDto2(presentDaysFromDb);
-                absentDays = getAbsentDaysDto2(absentDaysFromDb);
-                statusResDto = getFinalStatusReportOfEmployeeAttendance(presentDays, absentDays);
-            } else if (batchNum.equalsIgnoreCase(Constants.batch_203)) {
-                Optional<List<Batch_MCA203_Entity>> presentDaysFromDb = batchMca203Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.status_Present);
-                Optional<List<Batch_MCA203_Entity>> absentDaysFromDb = batchMca203Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.statuc_Absent);
-                presentDays = getPresentDaysDto3(presentDaysFromDb);
-                absentDays = getAbsentDaysDto3(absentDaysFromDb);
-                statusResDto = getFinalStatusReportOfEmployeeAttendance(presentDays, absentDays);
-            } else if (batchNum.equalsIgnoreCase(Constants.batch_401)) {
-                Optional<List<Batch_CSE401_Entity>> presentDaysFromDb = batchCse401Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.status_Present);
-                Optional<List<Batch_CSE401_Entity>> absentDaysFromDb = batchCse401Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.statuc_Absent);
-                presentDays = getPresentDaysDto4(presentDaysFromDb);
-                absentDays = getAbsentDaysDto4(absentDaysFromDb);
-                statusResDto = getFinalStatusReportOfEmployeeAttendance(presentDays, absentDays);
-            } else if (batchNum.equalsIgnoreCase(Constants.batch_402)) {
-                Optional<List<Batch_CSE402_Entity>> presentDaysFromDb = batchCse402Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.status_Present);
-                Optional<List<Batch_CSE402_Entity>> absentDaysFromDb = batchCse402Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.statuc_Absent);
-                presentDays = getPresentDaysDto5(presentDaysFromDb);
-                absentDays = getAbsentDaysDto5(absentDaysFromDb);
-                statusResDto = getFinalStatusReportOfEmployeeAttendance(presentDays, absentDays);
+        try{
+            if (statusReqDto != null && StringUtils.isNotBlank(statusReqDto.getEmpId()) && StringUtils.isNotBlank(statusReqDto.getBatchNum())) {
+                String batchNum = statusReqDto.getBatchNum();
+                List<PresentDay> presentDays = null;
+                List<Absentday> absentDays = null;
+                if (batchNum.equalsIgnoreCase(Constants.batch_201)) {
+                    Optional<List<Batch_MCA201_Entity>> presentDaysFromDb = batchMca201Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.status_Present);
+                    Optional<List<Batch_MCA201_Entity>> absentDaysFromDb = batchMca201Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.statuc_Absent);
+                    presentDays = getPresentDaysDto1(presentDaysFromDb);
+                    absentDays = getAbsentDaysDto1(absentDaysFromDb);
+                    statusResDto = getFinalStatusReportOfEmployeeAttendance(presentDays, absentDays);
+                } else if (batchNum.equalsIgnoreCase(Constants.batch_202)) {
+                    Optional<List<Batch_MCA202_Entity>> presentDaysFromDb = batchMca202Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.status_Present);
+                    Optional<List<Batch_MCA202_Entity>> absentDaysFromDb = batchMca202Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.statuc_Absent);
+                    presentDays = getPresentDaysDto2(presentDaysFromDb);
+                    absentDays = getAbsentDaysDto2(absentDaysFromDb);
+                    statusResDto = getFinalStatusReportOfEmployeeAttendance(presentDays, absentDays);
+                } else if (batchNum.equalsIgnoreCase(Constants.batch_203)) {
+                    Optional<List<Batch_MCA203_Entity>> presentDaysFromDb = batchMca203Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.status_Present);
+                    Optional<List<Batch_MCA203_Entity>> absentDaysFromDb = batchMca203Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.statuc_Absent);
+                    presentDays = getPresentDaysDto3(presentDaysFromDb);
+                    absentDays = getAbsentDaysDto3(absentDaysFromDb);
+                    statusResDto = getFinalStatusReportOfEmployeeAttendance(presentDays, absentDays);
+                } else if (batchNum.equalsIgnoreCase(Constants.batch_401)) {
+                    Optional<List<Batch_CSE401_Entity>> presentDaysFromDb = batchCse401Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.status_Present);
+                    Optional<List<Batch_CSE401_Entity>> absentDaysFromDb = batchCse401Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.statuc_Absent);
+                    presentDays = getPresentDaysDto4(presentDaysFromDb);
+                    absentDays = getAbsentDaysDto4(absentDaysFromDb);
+                    statusResDto = getFinalStatusReportOfEmployeeAttendance(presentDays, absentDays);
+                } else if (batchNum.equalsIgnoreCase(Constants.batch_402)) {
+                    Optional<List<Batch_CSE402_Entity>> presentDaysFromDb = batchCse402Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.status_Present);
+                    Optional<List<Batch_CSE402_Entity>> absentDaysFromDb = batchCse402Dao.findByFldEmpIdAndFldYearAndFldMonthAndFldStatus(statusReqDto.getEmpId(), statusReqDto.getYear(), statusReqDto.getMonth(), Constants.statuc_Absent);
+                    presentDays = getPresentDaysDto5(presentDaysFromDb);
+                    absentDays = getAbsentDaysDto5(absentDaysFromDb);
+                    statusResDto = getFinalStatusReportOfEmployeeAttendance(presentDays, absentDays);
+                } else {
+                    statusResDto = EmployeeAttendanceStatusResDto.builder()
+                            .statusCode(Constants.status_Failure)
+                            .errorMsg(Constants.invalidBatch)
+                            .build();
+                }
             } else {
                 statusResDto = EmployeeAttendanceStatusResDto.builder()
                         .statusCode(Constants.status_Failure)
-                        .errorMsg(Constants.invalidBatch)
+                        .errorMsg(Constants.emptyEmpIdBatchNum)
                         .build();
             }
-        } else {
+        }catch (Exception e){
+            logger.log(Level.SEVERE, getStackTrace(e));
             statusResDto = EmployeeAttendanceStatusResDto.builder()
                     .statusCode(Constants.status_Failure)
-                    .errorMsg(Constants.emptyEmpIdBatchNum)
+                    .errorMsg(Constants.saveFailure)
                     .build();
         }
 

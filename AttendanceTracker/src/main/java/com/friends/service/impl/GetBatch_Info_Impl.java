@@ -13,9 +13,15 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.friends.utils.AdapterUtils.getStackTrace;
 
 @Service
 public class GetBatch_Info_Impl implements GetBatch_Info {
+
+    private final static Logger logger = Logger.getLogger(GetBatch_Info_Impl.class.getName());
 
     @Autowired
     private Emp_Info_Dao empInfoDao;
@@ -27,27 +33,36 @@ public class GetBatch_Info_Impl implements GetBatch_Info {
     public GetEmpInfo_BasedOn_BatchNum getEmpInfoBasedOnBatchNum(String batchNum) {
         GetEmpInfo_BasedOn_BatchNum empInfoBasedOnBatchNum;
         List<Emp_Info_Dto> empInfoDtoList = new ArrayList<>();
-        if(batchNum != null) {
-            Optional<List<Emp_Info_Entity>> empInfoEntities = empInfoDao.findByFldBatchNum(batchNum);
-            if (empInfoEntities.isPresent() && !empInfoEntities.get().isEmpty()) {
-                empInfoDtoList = beanUtils.getListOfEmpsDto(empInfoEntities.get());
-                empInfoBasedOnBatchNum = GetEmpInfo_BasedOn_BatchNum.builder()
-                        .statusCode(Constants.status_Success)
-                        .empInfoDtoList(empInfoDtoList)
-                        .message(Constants.successEmpInfo)
-                        .build();
-            } else {
+        try{
+            if(batchNum != null) {
+                Optional<List<Emp_Info_Entity>> empInfoEntities = empInfoDao.findByFldBatchNumAndFldStatus(batchNum, Constants.stutusTraining);
+                if (empInfoEntities.isPresent() && !empInfoEntities.get().isEmpty()) {
+                    empInfoDtoList = beanUtils.getListOfEmpsDto(empInfoEntities.get());
+                    empInfoBasedOnBatchNum = GetEmpInfo_BasedOn_BatchNum.builder()
+                            .statusCode(Constants.status_Success)
+                            .empInfoDtoList(empInfoDtoList)
+                            .message(Constants.successEmpInfo)
+                            .build();
+                } else {
+                    empInfoBasedOnBatchNum = GetEmpInfo_BasedOn_BatchNum.builder()
+                            .statusCode(Constants.status_Failure)
+                            .empInfoDtoList(empInfoDtoList)
+                            .message(Constants.noData)
+                            .build();
+                }
+            }else {
                 empInfoBasedOnBatchNum = GetEmpInfo_BasedOn_BatchNum.builder()
                         .statusCode(Constants.status_Failure)
                         .empInfoDtoList(empInfoDtoList)
-                        .message(Constants.noData)
+                        .message(Constants.emptyBatchNum)
                         .build();
             }
-        }else {
+        }catch (Exception e){
+            logger.log(Level.SEVERE, getStackTrace(e));
             empInfoBasedOnBatchNum = GetEmpInfo_BasedOn_BatchNum.builder()
                     .statusCode(Constants.status_Failure)
                     .empInfoDtoList(empInfoDtoList)
-                    .message(Constants.emptyBatchNum)
+                    .message(Constants.noData)
                     .build();
         }
         return empInfoBasedOnBatchNum;

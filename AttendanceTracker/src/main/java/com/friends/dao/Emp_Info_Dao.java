@@ -18,7 +18,7 @@ public interface Emp_Info_Dao extends JpaRepository<Emp_Info_Entity, Integer> {
 
     Optional<Emp_Info_Entity> findByFldFullNameAndFldEmailId(String fullName, String emailId);
 
-    Optional<List<Emp_Info_Entity>> findByFldBatchNum(String batchNum);
+    Optional<List<Emp_Info_Entity>> findByFldBatchNumAndFldStatus(String batchNum, String status);
 
     Optional<Emp_Info_Entity> findByFldEmpId(String empId);
 
@@ -26,4 +26,9 @@ public interface Emp_Info_Dao extends JpaRepository<Emp_Info_Entity, Integer> {
     @Transactional
     @Query(value = "UPDATE TBL_AUDIT_EMP_INFO set FLD_PASSWORD = :password WHERE FLD_EMP_ID = :empId", nativeQuery = true)
     void updatePasswordByEmpId(String password, String empId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE TBL_AUDIT_EMP_INFO set FLD_STATUS = :status WHERE FLD_EMP_ID = :empId", nativeQuery = true)
+    void updateStatusByEmpId(String status, String empId);
 }

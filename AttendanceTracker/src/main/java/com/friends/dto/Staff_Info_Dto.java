@@ -18,6 +18,9 @@ public class Staff_Info_Dto {
     @JsonProperty("EmailId")
     private String fldEmailId;
 
+    @JsonProperty("DOB")
+    private String fldDob;
+
     @JsonProperty("PhoneNum")
     private String fldPhone;
 
@@ -55,6 +58,14 @@ public class Staff_Info_Dto {
 
     public void setFldEmailId(String fldEmailId) {
         this.fldEmailId = trimStr(fldEmailId);
+    }
+
+    public String getFldDob() {
+        return trimStr(fldDob);
+    }
+
+    public void setFldDob(String fldDob) {
+        this.fldDob = trimStr(fldDob);
     }
 
     public String getFldPhone() {
