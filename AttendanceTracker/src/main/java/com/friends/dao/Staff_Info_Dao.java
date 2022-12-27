@@ -19,4 +19,11 @@ public interface Staff_Info_Dao extends JpaRepository<Staff_Info_Entity, String>
     @Transactional
     @Query(value = "UPDATE TBL_AUDIT_STAFF_INFO set FLD_PASSWORD = :password WHERE FLD_EMP_ID = :empId", nativeQuery = true)
     void updatePasswordByEmpId(String password, String empId);
+
+    Optional<Staff_Info_Entity> findByFldEmpIdAndFldDob(String empId, String dob);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE TBL_AUDIT_STAFF_INFO set FLD_EMAIL_ID = :emailId WHERE FLD_EMP_ID = :empId", nativeQuery = true)
+    void updateEmailIdByEmpId(String emailId, String empId);
 }

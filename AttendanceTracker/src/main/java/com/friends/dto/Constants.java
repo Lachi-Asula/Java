@@ -59,4 +59,7 @@ public class Constants {
     public static String updatePass_EmptyPassword = "Password should not be empty or null.";
     public static String updateStatus_EmptyData = "Employee Id and Status should not be empty or null.";
     public static String updateStatus_Success = "Status updated Successfully!, current Status is : ";
+    public static String updateEmail_EmptyData = "Employee Id and DOB should not be empty or null";
+    public static String updateEmail_InvalidDobOrEmpId = "Employee Id with given Date of birth is not matching, please try again.";
+    public static String updateEmail_Success = "Email Id has been updated Successfully!";
 }

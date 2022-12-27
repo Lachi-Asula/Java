@@ -31,4 +31,11 @@ public interface Emp_Info_Dao extends JpaRepository<Emp_Info_Entity, Integer> {
     @Transactional
     @Query(value = "UPDATE TBL_AUDIT_EMP_INFO set FLD_STATUS = :status WHERE FLD_EMP_ID = :empId", nativeQuery = true)
     void updateStatusByEmpId(String status, String empId);
+
+    Optional<Emp_Info_Entity> findByFldEmpIdAndFldDob(String empId, String dob);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE TBL_AUDIT_EMP_INFO set FLD_EMAIL_ID = :emailId WHERE FLD_EMP_ID = :empId", nativeQuery = true)
+    void updateEmailIdByEmpId(String emailId, String empId);
 }
