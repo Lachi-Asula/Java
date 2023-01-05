@@ -1,11 +1,16 @@
 package com.education.controller;
 
+import com.education.dao.StaffRegDao;
+import com.education.dto.CommonResponseDto;
 import com.education.dto.Constants;
 import com.education.dto.GenerateTokenReqDto;
 import com.education.dto.GenerateTokenResDto;
+import com.education.model.StaffRegistration_Entity;
+import com.education.utils.exception.UserException;
 import com.education.utils.jwt.JwtUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,25 +37,30 @@ public class Staff_Login_Controller {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @PostMapping("/preLoginUserStatus")
+    public ResponseEntity<CommonResponseDto> preLoginUserStatus(@RequestBody GenerateTokenReqDto generateTokenReqDto){
+        return null;
+    }
+
     @PostMapping("/authenticateUser")
     public ResponseEntity<GenerateTokenResDto> authenticateUser(@RequestBody GenerateTokenReqDto generateTokenReqDto){
         GenerateTokenResDto generateTokenResDto = null;
         try{
-            if(generateTokenReqDto != null && StringUtils.isNotBlank(generateTokenReqDto.getUserName()) && StringUtils.isNotBlank(generateTokenReqDto.getPassword())){
+            if (generateTokenReqDto != null && StringUtils.isNotBlank(generateTokenReqDto.getUserName()) && StringUtils.isNotBlank(generateTokenReqDto.getPassword())) {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(generateTokenReqDto.getUserName(), generateTokenReqDto.getPassword()));
                 String token = jwtUtil.generateToken(generateTokenReqDto.getUserName());
                 generateTokenResDto = GenerateTokenResDto.builder()
                         .statusCode(Constants.statusCode_Success)
                         .token(token)
                         .build();
-            }else {
+            } else {
                 generateTokenResDto = GenerateTokenResDto.builder()
                         .statusCode(Constants.statusCode_Failure)
                         .errorMsg(Constants.userNameAndPassword_Empty_Error)
                         .build();
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generateTokenResDto);
             }
         }catch (Exception e){
-            logger.log(Level.SEVERE, getStackTrace(e));
             throw new UsernameNotFoundException("User not Found, Invalid Employee Id or Password");
         }
 

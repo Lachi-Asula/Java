@@ -9,7 +9,7 @@ import static com.education.utils.SpringUtils.trimStr;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GenerateTokenReqDto {
 
-    @JsonProperty("UserName")
+    @JsonProperty("UserId")
     private String userName;
 
     @JsonProperty("Password")

@@ -9,6 +9,9 @@ import static com.education.utils.SpringUtils.trimStr;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StudentRegistration_Dto {
 
+    @JsonProperty("ID")
+    private int fldId;
+
     @JsonProperty("StudentId")
     private String fldStudentId;
 
@@ -32,6 +35,14 @@ public class StudentRegistration_Dto {
 
     @JsonProperty("Standard")
     private String fldStandard;
+
+    public int getFldId() {
+        return fldId;
+    }
+
+    public void setFldId(int fldId) {
+        this.fldId = fldId;
+    }
 
     public String getFldStudentId() {
         return trimStr(fldStudentId);

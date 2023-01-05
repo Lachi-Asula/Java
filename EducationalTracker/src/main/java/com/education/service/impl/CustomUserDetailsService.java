@@ -4,6 +4,7 @@ import com.education.dao.StaffRegDao;
 import com.education.dto.Constants;
 import com.education.model.StaffRegistration_Entity;
 import com.education.utils.RSA.EncryptDecryptRSAUtil;
+import com.education.utils.exception.UserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,7 +32,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<StaffRegistration_Entity> staffRegistrationEntity = staffRegDao.findByFldStaffId(username);
         if (staffRegistrationEntity.isPresent()) {
             password = encDecUsingRSA.decode(staffRegistrationEntity.get().getFldPassword());
-            System.out.println(password);
         }else {
             throw new UsernameNotFoundException(Constants.userNotFound_Error);
         }
