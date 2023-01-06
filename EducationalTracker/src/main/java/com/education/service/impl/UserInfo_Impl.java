@@ -235,6 +235,98 @@ public class UserInfo_Impl implements UserInfo {
         return commonResponseDto;
     }
 
+    @Override
+    public CommonResponseDto blockUser(UserIdReqDto userIdReqDto) {
+        CommonResponseDto commonResponseDto = null;
+        try {
+            if(userIdReqDto != null && StringUtils.isNotBlank(userIdReqDto.getUserId())) {
+                Optional<StaffRegistration_Entity> staffRegistration = staffRegDao.findByFldStaffId(userIdReqDto.getUserId());
+                if (staffRegistration.isPresent()) {
+                    Optional<UserStatus_Entity> userStatusEntity = userStatusDao.findByFldUserId(userIdReqDto.getUserId());
+                    if (userStatusEntity.isPresent()) {
+                        UserStatus_Entity userStatus = userStatusEntity.get();
+                        userStatus.setFldBlockedTime(new Date());
+                        userStatus.setFldTempCount(Constants.tempCount_CoolingPeriod);
+                        userStatus.setFldPermCount(Constants.permCount_CoolingPeriod);
+                        userStatusDao.save(userStatus);
+                    } else {
+                        UserStatus_Entity userStatus = new UserStatus_Entity();
+                        userStatus.setFldUserId(userIdReqDto.getUserId());
+                        userStatus.setFldBlockedTime(new Date());
+                        userStatus.setFldTempCount(Constants.tempCount_CoolingPeriod);
+                        userStatus.setFldPermCount(Constants.permCount_CoolingPeriod);
+                        userStatusDao.save(userStatus);
+                    }
+                    commonResponseDto = CommonResponseDto.builder()
+                            .statusCode(Constants.statusCode_Success)
+                            .userId(userIdReqDto.getUserId())
+                            .timeStamp(SpringUtils.getTimeStamp())
+                            .successMsg(Constants.blockUser_Msg)
+                            .build();
+                }else {
+                    commonResponseDto = CommonResponseDto.builder()
+                            .statusCode(Constants.statusCode_Failure)
+                            .errorMsg(Constants.userId_Invalid)
+                            .build();
+                }
+            } else {
+                commonResponseDto = CommonResponseDto.builder()
+                        .statusCode(Constants.statusCode_Failure)
+                        .errorMsg(Constants.userId_Empty_Error)
+                        .build();
+            }
+        }catch (Exception e){
+            logger.log(Level.SEVERE, getStackTrace(e));
+        }
+
+        return commonResponseDto;
+    }
+
+    @Override
+    public CommonResponseDto unBlockUser(UserIdReqDto userIdReqDto) {
+        CommonResponseDto commonResponseDto = null;
+        try {
+            if(userIdReqDto != null && StringUtils.isNotBlank(userIdReqDto.getUserId())) {
+                Optional<StaffRegistration_Entity> staffRegistration = staffRegDao.findByFldStaffId(userIdReqDto.getUserId());
+                if (staffRegistration.isPresent()) {
+                    Optional<UserStatus_Entity> userStatusEntity = userStatusDao.findByFldUserId(userIdReqDto.getUserId());
+                    if (userStatusEntity.isPresent()) {
+                        UserStatus_Entity userStatus = userStatusEntity.get();
+                        userStatusDao.deleteById(userStatus.getFldId());
+                        commonResponseDto = CommonResponseDto.builder()
+                                .statusCode(Constants.statusCode_Success)
+                                .userId(userIdReqDto.getUserId())
+                                .timeStamp(SpringUtils.getTimeStamp())
+                                .successMsg(Constants.unBlockUser_Msg)
+                                .build();
+                    } else {
+                        commonResponseDto = CommonResponseDto.builder()
+                                .statusCode(Constants.statusCode_Success)
+                                .userId(userIdReqDto.getUserId())
+                                .timeStamp(SpringUtils.getTimeStamp())
+                                .successMsg(Constants.unBlockUserAlready_Msg)
+                                .build();
+                    }
+
+                }else {
+                    commonResponseDto = CommonResponseDto.builder()
+                            .statusCode(Constants.statusCode_Failure)
+                            .errorMsg(Constants.userId_Invalid)
+                            .build();
+                }
+            } else {
+                commonResponseDto = CommonResponseDto.builder()
+                        .statusCode(Constants.statusCode_Failure)
+                        .errorMsg(Constants.userId_Empty_Error)
+                        .build();
+            }
+        }catch (Exception e){
+            logger.log(Level.SEVERE, getStackTrace(e));
+        }
+
+        return commonResponseDto;
+    }
+
     private List<String> getAllStandardsForLecturer(List<Standard_Entity> standardEntities){
         List<String> allStandards = new ArrayList<>();
         for(Standard_Entity standardEntity : standardEntities){

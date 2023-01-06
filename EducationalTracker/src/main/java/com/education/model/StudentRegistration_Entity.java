@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "TBL_AUDIT_STUDENT_REG")
-@Data
 public class StudentRegistration_Entity {
 
     @Column(name = "FLD_CREATED_DATE", insertable = false, updatable = false)
@@ -42,4 +41,116 @@ public class StudentRegistration_Entity {
     @Column(name = "FLD_STANDARD")
     private String fldStandard;
 
+    @Column(name = "FLD_TOTAL_FEE")
+    private double fldTotalAmount;
+
+    @Column(name = "FLD_AMOUNT_PAID")
+    private double fldAmountPaid;
+
+    @Column(name = "FLD_AMOUNT_DUE")
+    private double fldAmountDue;
+
+    public String getTimeStampValue() {
+        return timeStampValue;
+    }
+
+    public void setTimeStampValue(String timeStampValue) {
+        this.timeStampValue = timeStampValue;
+    }
+
+    public int getFldId() {
+        return fldId;
+    }
+
+    public void setFldId(int fldId) {
+        this.fldId = fldId;
+    }
+
+    public String getFldStudentId() {
+        return fldStudentId;
+    }
+
+    public void setFldStudentId(String fldStudentId) {
+        this.fldStudentId = fldStudentId;
+    }
+
+    public String getFldFullName() {
+        return fldFullName;
+    }
+
+    public void setFldFullName(String fldFullName) {
+        this.fldFullName = fldFullName;
+    }
+
+    public String getFldFatherName() {
+        return fldFatherName;
+    }
+
+    public void setFldFatherName(String fldFatherName) {
+        this.fldFatherName = fldFatherName;
+    }
+
+    public String getFldMotherName() {
+        return fldMotherName;
+    }
+
+    public void setFldMotherName(String fldMotherName) {
+        this.fldMotherName = fldMotherName;
+    }
+
+    public String getFldDateOfBirth() {
+        return fldDateOfBirth;
+    }
+
+    public void setFldDateOfBirth(String fldDateOfBirth) {
+        this.fldDateOfBirth = fldDateOfBirth;
+    }
+
+    public String getFldPhone() {
+        return fldPhone;
+    }
+
+    public void setFldPhone(String fldPhone) {
+        this.fldPhone = fldPhone;
+    }
+
+    public String getFldGender() {
+        return fldGender;
+    }
+
+    public void setFldGender(String fldGender) {
+        this.fldGender = fldGender;
+    }
+
+    public String getFldStandard() {
+        return fldStandard;
+    }
+
+    public void setFldStandard(String fldStandard) {
+        this.fldStandard = fldStandard;
+    }
+
+    public double getFldTotalAmount() {
+        return fldTotalAmount;
+    }
+
+    public void setFldTotalAmount(double fldTotalAmount) {
+        this.fldTotalAmount = fldTotalAmount;
+    }
+
+    public double getFldAmountPaid() {
+        return fldAmountPaid;
+    }
+
+    public void setFldAmountPaid(double fldAmountPaid) {
+        this.fldAmountPaid = fldAmountPaid;
+    }
+
+    public double getFldAmountDue() {
+        return fldAmountDue;
+    }
+
+    public void setFldAmountDue(double fldAmountDue) {
+        this.fldAmountDue = fldAmountDue;
+    }
 }

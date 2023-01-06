@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Repository
 public interface FeeStructureDao extends JpaRepository<FeeStructure_Entity, Integer> {
@@ -15,4 +17,7 @@ public interface FeeStructureDao extends JpaRepository<FeeStructure_Entity, Inte
     @Modifying
     @Query("update FeeStructure_Entity set fldFeeAmount =:feeAmount where fldStandard =:standard")
     void updateFeeStructure(String standard, double feeAmount);
+
+    @Query("select fldFeeAmount from FeeStructure_Entity where fldStandard =:standard")
+    Optional<Double> getFeeAmountBasedOnStandard(String standard);
 }

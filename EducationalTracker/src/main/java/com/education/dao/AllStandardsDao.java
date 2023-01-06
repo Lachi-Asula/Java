@@ -6,10 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AllStandardsDao extends JpaRepository<AllStandards_Entity, Integer> {
 
     @Query("select fldStandard from AllStandards_Entity")
     List<String> getAllStandards();
+
+    Optional<AllStandards_Entity> findByFldStandard(String standard);
 }

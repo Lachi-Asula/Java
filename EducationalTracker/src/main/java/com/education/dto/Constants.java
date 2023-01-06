@@ -51,4 +51,11 @@ public class Constants {
     public static String fullNameFatherMotherName_Empty_Error = "FullName, FatherName and MotherName should not be empty or null.";
     public static String emailSub_Registration = "Educational | Registration";
     public static String emailMsg_Reg = "Registration has been completed successfully. \nBelow are the details, DO NOT disclose it to anyone.";
+    public static String blockUser_Msg = "Access to Educational Tracker application is successfully disabled.";
+    public static String unBlockUser_Msg = "Access to Educational Tracker application is successfully Enabled.";
+    public static String unBlockUserAlready_Msg = "Access to Educational Tracker application is Already Enabled.";
+    public static String emptyStandard_Error = "Standard should be not empty or null.";
+    public static String userNotFound = "User not found, invalid USER ID.";
+    public static String invalid_Standard = "Invalid Standard.";
+
 }

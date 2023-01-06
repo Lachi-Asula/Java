@@ -1,17 +1,8 @@
 package com.education.service.impl;
 
-import com.education.dao.StaffRegDao;
-import com.education.dao.StandardDao;
-import com.education.dao.StudentRegDao;
-import com.education.dao.SubjectDao;
-import com.education.dto.CommonResponseDto;
-import com.education.dto.Constants;
-import com.education.dto.StaffRegistration_Dto;
-import com.education.dto.StudentRegistration_Dto;
-import com.education.model.StaffRegistration_Entity;
-import com.education.model.Standard_Entity;
-import com.education.model.StudentRegistration_Entity;
-import com.education.model.Subject_Entity;
+import com.education.dao.*;
+import com.education.dto.*;
+import com.education.model.*;
 import com.education.service.Otp;
 import com.education.service.StaffRegistration;
 import com.education.service.StudentRegistration;
@@ -52,6 +43,9 @@ public class Registration implements StudentRegistration, StaffRegistration {
     private EncryptDecryptRSAUtil encryptDecryptRSAUtil;
 
     @Autowired
+    private AllStandardsDao allStandardsDao;
+
+    @Autowired
     private Otp otp;
 
     @Override
@@ -69,12 +63,14 @@ public class Registration implements StudentRegistration, StaffRegistration {
                     studentRegDao.save(studentRegistrationEntity);
                     commonResponseDto = CommonResponseDto.builder()
                             .statusCode(Constants.statusCode_Success)
-                            .errorMsg(Constants.registrationCompleted_Success + studentId)
+                            .successMsg(Constants.registrationCompleted_Success + studentId)
+                            .userId(studentId.toString())
                             .build();
                 }else {
                     commonResponseDto = CommonResponseDto.builder()
                             .statusCode(Constants.statusCode_Success)
                             .errorMsg(Constants.userExist_Already + studentRegistration.get().getFldStudentId())
+                            .userId(studentRegistration.get().getFldStudentId())
                             .build();
                 }
             }else {
@@ -92,6 +88,77 @@ public class Registration implements StudentRegistration, StaffRegistration {
         }
         return commonResponseDto;
     }
+
+    @Override
+    public StudentInfoResDto getStudentInfoBasedOnUserId(UserIdReqDto userIdReqDto) {
+        StudentInfoResDto studentInfoResDto = null;
+        if(userIdReqDto != null && StringUtils.isNotBlank(userIdReqDto.getUserId())){
+            Optional<StudentRegistration_Entity> studentInfoOptional = studentRegDao.findByFldStudentId(userIdReqDto.getUserId());
+            System.out.println(userIdReqDto.getUserId());
+            if(studentInfoOptional.isPresent()){
+                StudentRegistration_Dto studentRegistrationDto = beanUtils.getStudentRegDto(studentInfoOptional.get());
+                studentInfoResDto = StudentInfoResDto.builder()
+                        .statusCode(Constants.statusCode_Success)
+                        .userId(studentRegistrationDto.getFldStudentId())
+                        .fullName(studentRegistrationDto.getFldFullName())
+                        .dateOfBirth(studentRegistrationDto.getFldDateOfBirth())
+                        .motherName(studentRegistrationDto.getFldMotherName())
+                        .fatherName(studentRegistrationDto.getFldFatherName())
+                        .phoneNum(studentRegistrationDto.getFldPhone())
+                        .standard(studentRegistrationDto.getFldStandard())
+                        .gender(studentRegistrationDto.getFldGender())
+                        .totalAmount(studentRegistrationDto.getFldTotalAmount())
+                        .amountPaid(studentRegistrationDto.getFldAmountPaid())
+                        .amountDue(studentRegistrationDto.getFldAmountDue())
+                        .build();
+            }else{
+                studentInfoResDto = StudentInfoResDto.builder()
+                        .statusCode(Constants.statusCode_Failure)
+                        .errorMsg(Constants.userNotFound)
+                        .build();
+            }
+        }else {
+            studentInfoResDto = StudentInfoResDto.builder()
+                    .statusCode(Constants.statusCode_Failure)
+                    .errorMsg(Constants.userId_Empty_Error)
+                    .build();
+        }
+        return studentInfoResDto;
+    }
+
+    @Override
+    public AllStudentsInfoBasedOnStandard_ResDto getAllStudentsBasedOnStandard(String standard) {
+        AllStudentsInfoBasedOnStandard_ResDto studentRegistrationDtos = null;
+        try {
+            if(StringUtils.isNotBlank(standard)){
+                Optional<AllStandards_Entity> allStandardsEntity = allStandardsDao.findByFldStandard(standard);
+                if(allStandardsEntity.isPresent()) {
+                    List<StudentRegistration_Entity> studentRegistrationEntities = studentRegDao.findByFldStandard(standard);
+                    List<StudentRegistration_Dto> registrationDtos = beanUtils.getAllStudentsDtos(studentRegistrationEntities);
+                    studentRegistrationDtos = AllStudentsInfoBasedOnStandard_ResDto.builder()
+                            .statusCode(Constants.statusCode_Success)
+                            .standard(standard)
+                            .studentRegistrationDtoList(registrationDtos)
+                            .build();
+                }else {
+                    studentRegistrationDtos = AllStudentsInfoBasedOnStandard_ResDto.builder()
+                            .statusCode(Constants.statusCode_Failure)
+                            .standard(standard)
+                            .errorMsg(Constants.invalid_Standard)
+                            .build();
+                }
+            }else {
+                studentRegistrationDtos = AllStudentsInfoBasedOnStandard_ResDto.builder()
+                        .statusCode(Constants.statusCode_Failure)
+                        .errorMsg(Constants.emptyStandard_Error)
+                        .build();
+            }
+        }catch (Exception e){
+            logger.log(Level.SEVERE, getStackTrace(e));
+        }
+        return studentRegistrationDtos;
+    }
+
 
     @Override
     public CommonResponseDto registerStaff(StaffRegistration_Dto staffRegistrationDto) {

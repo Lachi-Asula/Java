@@ -11,4 +11,8 @@ public interface UserInfo {
 
     CommonResponseDto getUserStatus(GenerateTokenReqDto generateTokenReqDto);
 
+    CommonResponseDto blockUser(UserIdReqDto userIdReqDto);
+
+    CommonResponseDto unBlockUser(UserIdReqDto userIdReqDto);
+
 }

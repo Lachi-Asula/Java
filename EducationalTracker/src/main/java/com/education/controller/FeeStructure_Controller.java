@@ -1,5 +1,6 @@
 package com.education.controller;
 
+import com.education.dto.FeeInfoBasedOnStandard_ResDto;
 import com.education.dto.FeeStructureResDto;
 import com.education.dto.FeeStructureUpdateReqDto;
 import com.education.service.FeeStructure;
@@ -22,5 +23,10 @@ public class FeeStructure_Controller {
     @PostMapping("/updateFeeStructure")
     public ResponseEntity<FeeStructureResDto> updateFeeStructure(@RequestBody FeeStructureUpdateReqDto feeStructureUpdateReqDto){
         return ResponseEntity.ok(feeStructure.updateFeeStructure(feeStructureUpdateReqDto));
+    }
+
+    @GetMapping("/amountByStandard")
+    public ResponseEntity<FeeInfoBasedOnStandard_ResDto> getFeeInfoBasedOnStandard(@RequestParam("Standard") String standard){
+        return ResponseEntity.ok(feeStructure.getFeeInfoBasedOnStandard(standard));
     }
 }

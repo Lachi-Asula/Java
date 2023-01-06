@@ -21,6 +21,12 @@ public class CommonResponseDto {
     @JsonProperty("SuccessMessage")
     private String successMsg;
 
+    @JsonProperty("UserId")
+    private String userId;
+
+    @JsonProperty("TimeStamp")
+    private String timeStamp;
+
     public String getStatusCode() {
         return trimStr(statusCode);
     }
@@ -43,5 +49,21 @@ public class CommonResponseDto {
 
     public void setSuccessMsg(String successMsg) {
         this.successMsg = trimStr(successMsg);
+    }
+
+    public String getUserId() {
+        return trimStr(userId);
+    }
+
+    public void setUserId(String userId) {
+        this.userId = trimStr(userId);
+    }
+
+    public String getTimeStamp() {
+        return trimStr(timeStamp);
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = trimStr(timeStamp);
     }
 }

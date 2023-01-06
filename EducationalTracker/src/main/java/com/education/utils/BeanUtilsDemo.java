@@ -7,6 +7,8 @@ import com.education.model.StudentRegistration_Entity;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,4 +51,19 @@ public class BeanUtilsDemo {
         return staffRegistrationEntity;
     }
 
+    public List<StudentRegistration_Dto> getAllStudentsDtos(List<StudentRegistration_Entity> registrationEntities){
+        List<StudentRegistration_Dto> studentRegistrationDtos = new ArrayList<>();
+        StudentRegistration_Dto studentRegistrationDto = null;
+        try {
+            if(registrationEntities != null && !registrationEntities.isEmpty()){
+                for(StudentRegistration_Entity studentRegistration : registrationEntities){
+                    studentRegistrationDto = getStudentRegDto(studentRegistration);
+                    studentRegistrationDtos.add(studentRegistrationDto);
+                }
+            }
+        }catch (Exception e){
+            logger.log(Level.SEVERE, getStackTrace(e));
+        }
+        return studentRegistrationDtos;
+    }
 }

@@ -2,18 +2,20 @@ package com.education.service.impl;
 
 import com.education.dao.FeeStructureDao;
 import com.education.dto.Constants;
+import com.education.dto.FeeInfoBasedOnStandard_ResDto;
 import com.education.dto.FeeStructureResDto;
 import com.education.dto.FeeStructureUpdateReqDto;
 import com.education.model.FeeStructure_Entity;
 import com.education.service.FeeStructure;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.security.CodeSigner;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,6 +72,33 @@ public class FeeStructure_Impl implements FeeStructure {
                     .build();
         }
         return feeStructureResDto;
+    }
+
+    @Override
+    public FeeInfoBasedOnStandard_ResDto getFeeInfoBasedOnStandard(String standard) {
+        FeeInfoBasedOnStandard_ResDto standardResDto = null;
+        if(StringUtils.isNotBlank(standard)){
+            Optional<Double> feeAmountOptional = feeStructureDao.getFeeAmountBasedOnStandard(standard);
+            if(feeAmountOptional.isPresent()){
+                standardResDto = FeeInfoBasedOnStandard_ResDto.builder()
+                        .statusCode(Constants.statusCode_Success)
+                        .feeAmount(feeAmountOptional.get())
+                        .standard(standard)
+                        .build();
+            }else {
+                standardResDto = FeeInfoBasedOnStandard_ResDto.builder()
+                        .statusCode(Constants.statusCode_Failure)
+                        .errorMsg(Constants.connection_Error)
+                        .build();
+            }
+        }else {
+            standardResDto = FeeInfoBasedOnStandard_ResDto.builder()
+                    .statusCode(Constants.statusCode_Failure)
+                    .errorMsg(Constants.emptyStandard_Error)
+                    .build();
+        }
+
+        return standardResDto;
     }
 
 }

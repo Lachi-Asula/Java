@@ -1,8 +1,6 @@
 package com.education.controller;
 
-import com.education.dto.CommonResponseDto;
-import com.education.dto.StaffRegistration_Dto;
-import com.education.dto.StudentRegistration_Dto;
+import com.education.dto.*;
 import com.education.service.StaffRegistration;
 import com.education.service.StudentRegistration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +25,15 @@ public class Registration_Controller {
     @PostMapping("/staff")
     public ResponseEntity<CommonResponseDto> registerStaff(@RequestBody StaffRegistration_Dto staffRegistrationDto){
         return ResponseEntity.ok(staffRegistration.registerStaff(staffRegistrationDto));
+    }
+
+    @PostMapping("/getStudentInfo")
+    public ResponseEntity<StudentInfoResDto> getStudentInfo(@RequestBody UserIdReqDto userIdReqDto){
+        return ResponseEntity.ok((studentRegistration.getStudentInfoBasedOnUserId(userIdReqDto)));
+    }
+
+    @GetMapping("/getAllStudentsInfo")
+    public ResponseEntity<AllStudentsInfoBasedOnStandard_ResDto> getAllStudentsInfo(@RequestParam("Standard") String standard){
+        return ResponseEntity.ok((studentRegistration.getAllStudentsBasedOnStandard(standard)));
     }
 }

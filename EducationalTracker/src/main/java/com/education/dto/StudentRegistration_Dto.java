@@ -36,6 +36,15 @@ public class StudentRegistration_Dto {
     @JsonProperty("Standard")
     private String fldStandard;
 
+    @JsonProperty("TotalAmount")
+    private double fldTotalAmount;
+
+    @JsonProperty("AmountPaid")
+    private double fldAmountPaid;
+
+    @JsonProperty("AmountDue")
+    private double fldAmountDue;
+
     public int getFldId() {
         return fldId;
     }
@@ -106,5 +115,29 @@ public class StudentRegistration_Dto {
 
     public void setFldStandard(String fldStandard) {
         this.fldStandard = trimStr(fldStandard);
+    }
+
+    public double getFldTotalAmount() {
+        return fldTotalAmount;
+    }
+
+    public void setFldTotalAmount(double fldTotalAmount) {
+        this.fldTotalAmount = fldTotalAmount;
+    }
+
+    public double getFldAmountPaid() {
+        return fldAmountPaid;
+    }
+
+    public void setFldAmountPaid(double fldAmountPaid) {
+        this.fldAmountPaid = fldAmountPaid;
+    }
+
+    public double getFldAmountDue() {
+        return fldAmountDue;
+    }
+
+    public void setFldAmountDue(double fldAmountDue) {
+        this.fldAmountDue = fldAmountDue;
     }
 }

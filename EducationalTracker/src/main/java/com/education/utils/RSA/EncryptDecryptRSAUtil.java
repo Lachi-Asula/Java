@@ -64,13 +64,13 @@ public class EncryptDecryptRSAUtil {
         String priKey = new String(Base64.getEncoder().encode(keyPair.getPrivate().getEncoded()));
     }
 
-    /*public static void main(String[] args){
+    public static void main(String[] args){
         String str = "Anil@123";
         String cipherText = new EncryptDecryptRSAUtil().encode(str);
         System.out.println("CHIPHER:" + cipherText);
         String decryptedText = new EncryptDecryptRSAUtil().decode(cipherText);
         System.out.println("DECRYPTED STRING:" + decryptedText);
 
-    }*/
+    }
 
 }
